@@ -1,0 +1,243 @@
+<div class="grid grid-cols-1">
+  <div class="bg-white mr-14 mt-20 gap-y-14 p-10 rounded-[35px] shadow-lg">
+    <h2 class="titulo-naranja text-xl font-bold mb-4">Registro</h2>
+    <hr class="bg-naranja h-1 mb-6" />
+    <div class="mx-10">
+      <!-- segundo-proceso.component.html -->
+      <form
+        [formGroup]="trabajadorForm"
+        (ngSubmit)="onSubmit()"
+        class="grid grid-cols-1 gap-6"
+      >
+        <div>
+          <label for="paterno" class="block text-gray-700 font-semibold"
+            >Apellido Paterno</label
+          >
+          <input
+            id="paterno"
+            formControlName="paterno"
+            placeholder="Apellido Paterno"
+            class="w-full mt-1 p-2 border border-gray-300 rounded focus:outline-none focus:ring focus:border-blue-300"
+            required
+          />
+        </div>
+
+        <div>
+          <label for="materno" class="block text-gray-700 font-semibold"
+            >Apellido Materno</label
+          >
+          <input
+            id="materno"
+            formControlName="materno"
+            placeholder="Apellido Materno"
+            class="w-full mt-1 p-2 border border-gray-300 rounded focus:outline-none focus:ring focus:border-blue-300"
+            required
+          />
+        </div>
+
+        <div>
+          <label for="primer" class="block text-gray-700 font-semibold"
+            >Primer Nombre</label
+          >
+          <input
+            id="primer"
+            formControlName="primer"
+            placeholder="Primer Nombre"
+            class="w-full mt-1 p-2 border border-gray-300 rounded focus:outline-none focus:ring focus:border-blue-300"
+            required
+          />
+        </div>
+
+        <div>
+          <label for="segundo" class="block text-gray-700 font-semibold"
+            >Segundo Nombre</label
+          >
+          <input
+            id="segundo"
+            formControlName="segundo"
+            placeholder="Segundo Nombre"
+            class="w-full mt-1 p-2 border border-gray-300 rounded focus:outline-none focus:ring focus:border-blue-300"
+          />
+        </div>
+
+        <div>
+          <label
+            for="numero_documento"
+            class="block text-gray-700 font-semibold"
+            >Número de Documento</label
+          >
+          <input
+            id="numero_documento"
+            formControlName="numero_documento"
+            placeholder="Número de Documento"
+            class="w-full mt-1 p-2 border border-gray-300 rounded focus:outline-none focus:ring focus:border-blue-300"
+            required
+          />
+        </div>
+
+        <div>
+          <label
+            for="fecha_nacimiento"
+            class="block text-gray-700 font-semibold"
+            >Fecha de Nacimiento</label
+          >
+          <input
+            id="fecha_nacimiento"
+            type="date"
+            formControlName="fecha_nacimiento"
+            class="w-full mt-1 p-2 border border-gray-300 rounded focus:outline-none focus:ring focus:border-blue-300"
+            required
+          />
+        </div>
+
+        <div>
+          <label for="ruc" class="block text-gray-700 font-semibold">RUC</label>
+          <input
+            id="ruc"
+            formControlName="ruc"
+            placeholder="RUC"
+            class="w-full mt-1 p-2 border border-gray-300 rounded focus:outline-none focus:ring focus:border-blue-300"
+          />
+        </div>
+
+        <div>
+          <label for="direccion" class="block text-gray-700 font-semibold"
+            >Dirección</label
+          >
+          <input
+            id="direccion"
+            formControlName="direccion"
+            placeholder="Dirección"
+            class="w-full mt-1 p-2 border border-gray-300 rounded focus:outline-none focus:ring focus:border-blue-300"
+            required
+          />
+        </div>
+
+        <div>
+          <label for="referencia" class="block text-gray-700 font-semibold"
+            >Referencia</label
+          >
+          <input
+            id="referencia"
+            formControlName="referencia"
+            placeholder="Referencia"
+            class="w-full mt-1 p-2 border border-gray-300 rounded focus:outline-none focus:ring focus:border-blue-300"
+          />
+        </div>
+
+        <div>
+          <label for="telefono" class="block text-gray-700 font-semibold"
+            >Teléfono</label
+          >
+          <input
+            id="telefono"
+            formControlName="telefono"
+            placeholder="Teléfono"
+            class="w-full mt-1 p-2 border border-gray-300 rounded focus:outline-none focus:ring focus:border-blue-300"
+          />
+        </div>
+
+        <div>
+          <label for="celular" class="block text-gray-700 font-semibold"
+            >Celular</label
+          >
+          <input
+            id="celular"
+            formControlName="celular"
+            placeholder="Celular"
+            class="w-full mt-1 p-2 border border-gray-300 rounded focus:outline-none focus:ring focus:border-blue-300"
+          />
+        </div>
+
+        <div>
+          <label for="correo" class="block text-gray-700 font-semibold"
+            >Correo</label
+          >
+          <input
+            id="correo"
+            formControlName="correo"
+            placeholder="Correo"
+            class="w-full mt-1 p-2 border border-gray-300 rounded focus:outline-none focus:ring focus:border-blue-300"
+          />
+        </div>
+
+        <div>
+          <label for="id_empleador" class="block text-gray-700 font-semibold"
+            >Empleador</label
+          >
+          <select
+            id="id_empleador"
+            formControlName="id_empleador"
+            class="w-full mt-1 p-2 border border-gray-300 rounded focus:outline-none focus:ring focus:border-blue-300"
+            required
+          >
+            <option
+              *ngFor="let empleador of empleadores"
+              [value]="empleador.id_empleador"
+            >
+              {{ empleador.empleador }}
+            </option>
+          </select>
+        </div>
+
+        <div>
+          <label
+            for="id_tipo_documento"
+            class="block text-gray-700 font-semibold"
+            >Tipo de Documento</label
+          >
+          <select
+            id="id_tipo_documento"
+            formControlName="id_tipo_documento"
+            class="w-full mt-1 p-2 border border-gray-300 rounded focus:outline-none focus:ring focus:border-blue-300"
+            required
+          >
+            <option
+              *ngFor="let tipo of tiposDocumento"
+              [value]="tipo.id_tipo_documento"
+            >
+              {{ tipo.tipo_documento }}
+            </option>
+          </select>
+        </div>
+
+        <div>
+          <label for="id_ubigeo" class="block text-gray-700 font-semibold"
+            >Ubigeo</label
+          >
+          <select
+            id="id_ubigeo"
+            formControlName="id_ubigeo"
+            class="w-full mt-1 p-2 border border-gray-300 rounded focus:outline-none focus:ring focus:border-blue-300"
+            required
+          >
+            <option *ngFor="let ubigeo of ubigeos" [value]="ubigeo.id_ubigeo">
+              {{ ubigeo.ubigeo }}
+            </option>
+          </select>
+        </div>
+
+        <!-- Agrega los demás selects de manera similar, con etiquetas correspondientes... -->
+
+        <div class="flex justify-end mt-4">
+          <button
+            type="submit"
+            class="boton-naranja px-4 py-2 rounded bg-orange-500 text-white hover:bg-orange-600"
+          >
+            Crear Trabajador
+          </button>
+        </div>
+      </form>
+
+      <div class="flex justify-end mt-20">
+        <a routerLink="/admin/contratacion/trabajadores">
+          <button
+            class="boton-azul px-4 py-2 rounded bg-blue-500 text-white hover:bg-blue-600"
+          >
+            Atrás
+          </button>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>

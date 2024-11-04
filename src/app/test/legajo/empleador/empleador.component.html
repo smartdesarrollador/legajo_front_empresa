@@ -1,0 +1,23 @@
+<div class="container mx-auto">
+  <h2 class="text-xl font-bold mb-4">Lista de Empleadores</h2>
+  <table class="table-auto w-full border-collapse border border-gray-300">
+    <thead class="bg-gray-100">
+      <tr>
+        <th class="border px-4 py-2">ID</th>
+        <th class="border px-4 py-2">Empleador</th>
+        <th class="border px-4 py-2">RUC</th>
+        <th class="border px-4 py-2">Domicilio</th>
+        <th class="border px-4 py-2">Representante Legal</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let empleador of empleadores">
+        <td class="border px-4 py-2">{{ empleador.id_empleador }}</td>
+        <td class="border px-4 py-2">{{ empleador.empleador }}</td>
+        <td class="border px-4 py-2">{{ empleador.ruc }}</td>
+        <td class="border px-4 py-2">{{ empleador.domicilio }}</td>
+        <td class="border px-4 py-2">{{ empleador.representante_legal }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

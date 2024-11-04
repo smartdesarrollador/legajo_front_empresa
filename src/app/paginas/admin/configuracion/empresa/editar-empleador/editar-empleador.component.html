@@ -1,0 +1,229 @@
+<div class="p-6 bg-white rounded shadow-md">
+  <h2 class="text-2xl mb-4">Editar Empleador</h2>
+  <form [formGroup]="empleadorForm" (ngSubmit)="onSubmit()">
+    <div class="mb-4">
+      <label for="empleador" class="block text-sm font-bold">Empleador:</label>
+      <input
+        type="text"
+        id="empleador"
+        formControlName="empleador"
+        class="w-full p-2 border rounded"
+        required
+      />
+      <div
+        *ngIf="
+          empleadorForm.get('empleador')?.invalid &&
+          empleadorForm.get('empleador')?.touched
+        "
+      >
+        <span class="text-red-500">El nombre del empleador es requerido.</span>
+      </div>
+    </div>
+
+    <div class="mb-4">
+      <label for="ruc" class="block text-sm font-bold">RUC:</label>
+      <input
+        type="text"
+        id="ruc"
+        formControlName="ruc"
+        class="w-full p-2 border rounded"
+        required
+      />
+      <div
+        *ngIf="
+          empleadorForm.get('ruc')?.invalid && empleadorForm.get('ruc')?.touched
+        "
+      >
+        <span class="text-red-500">El RUC es requerido.</span>
+      </div>
+    </div>
+
+    <div class="mb-4">
+      <label for="domicilio" class="block text-sm font-bold">Domicilio:</label>
+      <input
+        type="text"
+        id="domicilio"
+        formControlName="domicilio"
+        class="w-full p-2 border rounded"
+        required
+      />
+      <div
+        *ngIf="
+          empleadorForm.get('domicilio')?.invalid &&
+          empleadorForm.get('domicilio')?.touched
+        "
+      >
+        <span class="text-red-500">El domicilio es requerido.</span>
+      </div>
+    </div>
+
+    <div class="mb-4">
+      <label for="representante_legal" class="block text-sm font-bold"
+        >Representante Legal:</label
+      >
+      <input
+        type="text"
+        id="representante_legal"
+        formControlName="representante_legal"
+        class="w-full p-2 border rounded"
+        required
+      />
+      <div
+        *ngIf="
+          empleadorForm.get('representante_legal')?.invalid &&
+          empleadorForm.get('representante_legal')?.touched
+        "
+      >
+        <span class="text-red-500">El representante legal es requerido.</span>
+      </div>
+    </div>
+
+    <div class="mb-4">
+      <label for="dni_representante_legal" class="block text-sm font-bold"
+        >DNI Representante Legal:</label
+      >
+      <input
+        type="text"
+        id="dni_representante_legal"
+        formControlName="dni_representante_legal"
+        class="w-full p-2 border rounded"
+        required
+      />
+      <div
+        *ngIf="
+          empleadorForm.get('dni_representante_legal')?.invalid &&
+          empleadorForm.get('dni_representante_legal')?.touched
+        "
+      >
+        <span class="text-red-500"
+          >El DNI del representante legal es requerido.</span
+        >
+      </div>
+    </div>
+
+    <div class="mb-4">
+      <label for="cargo_representante_legal" class="block text-sm font-bold"
+        >Cargo Representante Legal:</label
+      >
+      <input
+        type="text"
+        id="cargo_representante_legal"
+        formControlName="cargo_representante_legal"
+        class="w-full p-2 border rounded"
+      />
+    </div>
+
+    <div class="mb-4">
+      <label for="numero_partida_poderes" class="block text-sm font-bold"
+        >Número Partida Poderes:</label
+      >
+      <input
+        type="text"
+        id="numero_partida_poderes"
+        formControlName="numero_partida_poderes"
+        class="w-full p-2 border rounded"
+      />
+    </div>
+
+    <div class="mb-4">
+      <label for="numero_asiento" class="block text-sm font-bold"
+        >Número Asiento:</label
+      >
+      <input
+        type="text"
+        id="numero_asiento"
+        formControlName="numero_asiento"
+        class="w-full p-2 border rounded"
+      />
+    </div>
+
+    <div class="mb-4">
+      <label for="oficina_registral" class="block text-sm font-bold"
+        >Oficina Registral:</label
+      >
+      <input
+        type="text"
+        id="oficina_registral"
+        formControlName="oficina_registral"
+        class="w-full p-2 border rounded"
+      />
+    </div>
+
+    <div class="mb-4">
+      <label for="numero_partida_registral" class="block text-sm font-bold"
+        >Número Partida Registral:</label
+      >
+      <input
+        type="text"
+        id="numero_partida_registral"
+        formControlName="numero_partida_registral"
+        class="w-full p-2 border rounded"
+      />
+    </div>
+
+    <div class="mb-4">
+      <label for="fecha_inicio_actividades" class="block text-sm font-bold"
+        >Fecha de Inicio de Actividades:</label
+      >
+      <input
+        type="date"
+        id="fecha_inicio_actividades"
+        formControlName="fecha_inicio_actividades"
+        class="w-full p-2 border rounded"
+        required
+      />
+      <div
+        *ngIf="
+          empleadorForm.get('fecha_inicio_actividades')?.invalid &&
+          empleadorForm.get('fecha_inicio_actividades')?.touched
+        "
+      >
+        <span class="text-red-500"
+          >La fecha de inicio de actividades es requerida.</span
+        >
+      </div>
+    </div>
+
+    <div class="mb-4">
+      <label for="id_regimen_laboral" class="block text-sm font-bold"
+        >Régimen Laboral:</label
+      >
+      <select
+        id="id_regimen_laboral"
+        formControlName="id_regimen_laboral"
+        class="w-full p-2 border rounded"
+        required
+      >
+        <option value="" disabled>Seleccione un régimen laboral</option>
+        <option
+          *ngFor="let regimen of regimenesLaborales"
+          [value]="regimen.id_regimen_laboral"
+        >
+          {{ regimen.regimen_laboral }}
+        </option>
+      </select>
+      <div
+        *ngIf="
+          empleadorForm.get('id_regimen_laboral')?.invalid &&
+          empleadorForm.get('id_regimen_laboral')?.touched
+        "
+      >
+        <span class="text-red-500">El régimen laboral es requerido.</span>
+      </div>
+    </div>
+
+    <button
+      type="submit"
+      class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+    >
+      Guardar Cambios
+    </button>
+  </form>
+
+  <button
+    routerLink="/admin/configuracion/empresa"
+    class="bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded mt-5"
+  >
+    Atrás
+  </button>
+</div>

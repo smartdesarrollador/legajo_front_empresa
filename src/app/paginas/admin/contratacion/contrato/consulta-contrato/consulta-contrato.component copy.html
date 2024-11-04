@@ -1,0 +1,596 @@
+<div class="grid grid-cols-1 w-full">
+  <div class="bg-white mr-14 mt-20 gap-y-14 p-10 rounded-[35px] shadow-lg">
+    <h2 class="titulo-naranja">Contratos</h2>
+    <hr class="bg-naranja h-1" />
+
+    <section class="p-8 min-h-screen">
+      <!-- Título -->
+      <!-- <h1 class="text-2xl font-bold mb-4">Trabajadores:</h1>
+ -->
+      <!-- Filtros de búsqueda -->
+      <div class="bg-white p-4 rounded-lg shadow mb-6">
+        <div class="flex items-center justify-between mb-4">
+          <h2 class="text-lg font-medium">Búsqueda de Contratos:</h2>
+          <a
+            routerLink="/admin/contratacion/contrato/regimen-laboral"
+            class="px-4 py-2 bg-blue-600 text-white rounded-lg shadow hover:bg-blue-700"
+          >
+            Nuevo Contrato
+          </a>
+        </div>
+
+        <!-- Formulario de búsqueda modificado -->
+        <form class="space-y-4">
+          <!-- Área -->
+          <div>
+            <label for="area" class="block text-sm font-medium text-gray-700"
+              >Área</label
+            >
+            <select
+              id="area"
+              name="area"
+              class="mt-1 block w-[70%] h-10 rounded-md border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+            >
+              <option value="" disabled selected>Selecciona un área</option>
+              <option value="Sistemas">Sistemas</option>
+              <option value="Recursos Humanos">Recursos Humanos</option>
+              <option value="Logística">Logística</option>
+              <option value="Ventas">Ventas</option>
+              <option value="Contabilidad">Contabilidad</option>
+              <option value="Marketing">Marketing</option>
+              <option value="Operaciones">Operaciones</option>
+              <option value="Calidad">Calidad</option>
+              <option value="Desarrollo">Desarrollo</option>
+              <option value="Soporte Técnico">Soporte Técnico</option>
+            </select>
+          </div>
+          <div>
+            <label for="estado" class="block text-sm font-medium text-gray-700"
+              >Estado</label
+            >
+            <select
+              id="estado"
+              name="estado"
+              class="mt-1 block w-[70%] h-10 rounded-md border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+            >
+              <option value="" disabled selected>Selecciona un estado</option>
+              <option value="CREADO">CREADO</option>
+              <option value="RECIBIDO">RECIBIDO</option>
+              <option value="ENVIADO">ENVIADO</option>
+              <option value="FIRMADO">FIRMADO</option>
+            </select>
+          </div>
+
+          <!-- Trabajador -->
+          <div>
+            <label
+              for="trabajador"
+              class="block text-sm font-medium text-gray-700"
+              >Trabajador</label
+            >
+            <select
+              id="trabajador"
+              name="trabajador"
+              class="mt-1 block w-[70%] h-10 rounded-md border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+            >
+              <option value="" disabled selected>
+                Selecciona un trabajador
+              </option>
+              <option value="Alicia Reyes Maldonado">
+                Alicia Reyes Maldonado
+              </option>
+              <option value="Pedro Martínez López">Pedro Martínez López</option>
+              <option value="Lorena Núñez Sánchez">Lorena Núñez Sánchez</option>
+              <option value="Patricia Kcont Romero">
+                Patricia Kcont Romero
+              </option>
+              <option value="María Pérez González">María Pérez González</option>
+              <option value="Juan López Rivera">Juan López Rivera</option>
+              <option value="Carla Herrera Díaz">Carla Herrera Díaz</option>
+              <option value="Miguel Castro Torres">Miguel Castro Torres</option>
+              <option value="Lucía Ortiz Vega">Lucía Ortiz Vega</option>
+              <option value="Fernando Gómez Ruiz">Fernando Gómez Ruiz</option>
+            </select>
+          </div>
+
+          <!-- Tipo de Contrato -->
+          <div>
+            <label
+              for="tipoContrato"
+              class="block text-sm font-medium text-gray-700"
+              >Tipo de Contrato</label
+            >
+            <select
+              id="tipoContrato"
+              name="tipoContrato"
+              class="mt-1 block w-[70%] h-10 rounded-md border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+            >
+              <option value="" disabled selected>
+                Selecciona un tipo de contrato
+              </option>
+              <option value="Indefinido">Indefinido</option>
+              <option value="Temporal">Temporal</option>
+              <option value="Prácticas">Prácticas</option>
+              <option value="Obra o Servicio">Obra o Servicio</option>
+              <option value="Formativo">Formativo</option>
+              <option value="A Tiempo Parcial">A Tiempo Parcial</option>
+              <option value="De Relevo">De Relevo</option>
+              <option value="Por Proyecto">Por Proyecto</option>
+              <option value="Eventual">Eventual</option>
+            </select>
+          </div>
+        </form>
+      </div>
+
+      <!-- Tabla de registros -->
+      <div class="overflow-x-auto">
+        <table class="min-w-full bg-white rounded-lg shadow text-sm">
+          <thead>
+            <tr class="bg-gray-200 text-gray-700">
+              <th class="py-3 px-4 text-left">Trabajador</th>
+              <th class="py-3 px-4 text-left">Área</th>
+              <th class="py-3 px-4 text-left">Cargo</th>
+              <th class="py-3 px-4 text-left">Fecha de Inicio</th>
+              <th class="py-3 px-4 text-left">Vencimiento</th>
+              <th class="py-3 px-4 text-left">Vigencia</th>
+              <th class="py-3 px-4 text-left">Ver</th>
+              <th class="py-3 px-4 text-left">Descargar</th>
+              <th class="py-3 px-4 text-left">Adjuntar</th>
+              <th class="py-3 px-4 text-left">Mail</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Registro 1 -->
+            <tr class="border-b">
+              <td class="py-3 px-4">Jhoen Santos</td>
+              <td class="py-3 px-4">Sistemas</td>
+              <td class="py-3 px-4">Analista de Sistemas</td>
+              <td class="py-3 px-4">16/09/2024</td>
+              <td class="py-3 px-4">16/09/2025</td>
+              <td class="py-3 px-4">
+                <span
+                  class="inline-block w-3 h-3 bg-green-500 rounded-full"
+                ></span>
+              </td>
+              <td class="py-3 px-4">
+                <a
+                  href="javascript:void(0)"
+                  class="text-blue-600 hover:underline"
+                  (click)="descargarPDF()"
+                  >Ver</a
+                >
+              </td>
+
+              <td class="py-3 px-4">
+                <img
+                  src="assets/images/icons/descargar.png"
+                  class="w-[30px]"
+                  alt=""
+                />
+              </td>
+              <td class="py-3 px-4">
+                <img
+                  [src]="imageUrl"
+                  (click)="fileInput.click()"
+                  class="w-[30px] cursor-pointer"
+                  alt=" "
+                />
+              </td>
+              <td class="py-3 px-4">
+                <img
+                  src="assets/images/icons/email.png"
+                  (click)="enviarMensaje()"
+                  class="w-[30px] cursor-pointer"
+                  alt=""
+                />
+              </td>
+            </tr>
+            <!-- Registro 2 -->
+            <tr class="border-b">
+              <td class="py-3 px-4">Pedro Martínez López</td>
+              <td class="py-3 px-4">Logística</td>
+              <td class="py-3 px-4">Jefe de Logística</td>
+              <td class="py-3 px-4">12/08/2022</td>
+              <td class="py-3 px-4">12/08/2023</td>
+              <td class="py-3 px-4">
+                <span
+                  class="inline-block w-3 h-3 bg-green-500 rounded-full"
+                ></span>
+              </td>
+              <td class="py-3 px-4">
+                <button
+                  class="text-blue-600 hover:underline"
+                  (click)="descargarPDF()"
+                >
+                  Ver
+                </button>
+              </td>
+              <td class="py-3 px-4">
+                <img
+                  src="assets/images/icons/descargar.png"
+                  class="w-[30px]"
+                  alt=""
+                />
+              </td>
+              <td class="py-3 px-4">
+                <img
+                  src="assets/images/icons/adjuntar-azul.png"
+                  (click)="fileInput.click()"
+                  class="w-[30px] cursor-pointer"
+                  alt=""
+                />
+              </td>
+              <td class="py-3 px-4">
+                <img
+                  src="assets/images/icons/email.png"
+                  (click)="enviarMensaje()"
+                  class="w-[30px] cursor-pointer"
+                  alt=""
+                />
+              </td>
+            </tr>
+            <!-- Registro 3 -->
+            <tr class="border-b">
+              <td class="py-3 px-4">Lorena Núñez Sánchez</td>
+              <td class="py-3 px-4">Ventas</td>
+              <td class="py-3 px-4">Asistente de Ventas</td>
+              <td class="py-3 px-4">20/09/2022</td>
+              <td class="py-3 px-4">20/09/2023</td>
+              <td class="py-3 px-4">
+                <span
+                  class="inline-block w-3 h-3 bg-green-500 rounded-full"
+                ></span>
+              </td>
+              <td class="py-3 px-4">
+                <button
+                  class="text-blue-600 hover:underline"
+                  (click)="descargarPDF()"
+                >
+                  Ver
+                </button>
+              </td>
+              <td class="py-3 px-4">
+                <img
+                  src="assets/images/icons/descargar.png"
+                  class="w-[30px]"
+                  alt=""
+                />
+              </td>
+              <td class="py-3 px-4">
+                <img
+                  src="assets/images/icons/adjuntar-azul.png"
+                  (click)="fileInput.click()"
+                  class="w-[30px] cursor-pointer"
+                  alt=""
+                />
+              </td>
+              <td class="py-3 px-4">
+                <img
+                  src="assets/images/icons/email.png"
+                  (click)="enviarMensaje()"
+                  class="w-[30px] cursor-pointer"
+                  alt=""
+                />
+              </td>
+            </tr>
+            <!-- Registro 4 -->
+            <tr class="border-b">
+              <td class="py-3 px-4">Patricia Kcont Romero</td>
+              <td class="py-3 px-4">Contabilidad</td>
+              <td class="py-3 px-4">Contador</td>
+              <td class="py-3 px-4">07/01/2023</td>
+              <td class="py-3 px-4">07/01/2024</td>
+              <td class="py-3 px-4">
+                <span
+                  class="inline-block w-3 h-3 bg-red-500 rounded-full"
+                ></span>
+              </td>
+              <td class="py-3 px-4">
+                <button
+                  class="text-blue-600 hover:underline"
+                  (click)="descargarPDF()"
+                >
+                  Ver
+                </button>
+              </td>
+              <td class="py-3 px-4">
+                <img
+                  src="assets/images/icons/descargar.png"
+                  class="w-[30px]"
+                  alt=""
+                />
+              </td>
+              <td class="py-3 px-4">
+                <img
+                  src="assets/images/icons/adjuntar-azul.png"
+                  (click)="fileInput.click()"
+                  class="w-[30px] cursor-pointer"
+                  alt=""
+                />
+              </td>
+              <td class="py-3 px-4">
+                <img
+                  src="assets/images/icons/email.png"
+                  (click)="enviarMensaje()"
+                  class="w-[30px] cursor-pointer"
+                  alt=""
+                />
+              </td>
+            </tr>
+            <!-- Registro 5 -->
+            <tr class="border-b">
+              <td class="py-3 px-4">María Pérez González</td>
+              <td class="py-3 px-4">Recursos Humanos</td>
+              <td class="py-3 px-4">Gerente de RRHH</td>
+              <td class="py-3 px-4">01/03/2021</td>
+              <td class="py-3 px-4">01/03/2022</td>
+              <td class="py-3 px-4">
+                <span
+                  class="inline-block w-3 h-3 bg-red-500 rounded-full"
+                ></span>
+              </td>
+              <td class="py-3 px-4">
+                <button
+                  class="text-blue-600 hover:underline"
+                  (click)="descargarPDF()"
+                >
+                  Ver
+                </button>
+              </td>
+              <td class="py-3 px-4">
+                <img
+                  src="assets/images/icons/descargar.png"
+                  class="w-[30px]"
+                  alt=""
+                />
+              </td>
+              <td class="py-3 px-4">
+                <img
+                  src="assets/images/icons/adjuntar-azul.png"
+                  (click)="fileInput.click()"
+                  class="w-[30px] cursor-pointer"
+                  alt=""
+                />
+              </td>
+              <td class="py-3 px-4">
+                <img
+                  src="assets/images/icons/email.png"
+                  (click)="enviarMensaje()"
+                  class="w-[30px] cursor-pointer"
+                  alt=""
+                />
+              </td>
+            </tr>
+            <!-- Registro 6 -->
+            <tr class="border-b">
+              <td class="py-3 px-4">Juan López Rivera</td>
+              <td class="py-3 px-4">Marketing</td>
+              <td class="py-3 px-4">Especialista en Marketing</td>
+              <td class="py-3 px-4">10/05/2022</td>
+              <td class="py-3 px-4">10/05/2023</td>
+              <td class="py-3 px-4">
+                <span
+                  class="inline-block w-3 h-3 bg-green-500 rounded-full"
+                ></span>
+              </td>
+              <td class="py-3 px-4">
+                <button
+                  class="text-blue-600 hover:underline"
+                  (click)="descargarPDF()"
+                >
+                  Ver
+                </button>
+              </td>
+              <td class="py-3 px-4">
+                <img
+                  src="assets/images/icons/descargar.png"
+                  class="w-[30px]"
+                  alt=""
+                />
+              </td>
+              <td class="py-3 px-4">
+                <img
+                  src="assets/images/icons/adjuntar-azul.png"
+                  (click)="fileInput.click()"
+                  class="w-[30px] cursor-pointer"
+                  alt=""
+                />
+              </td>
+              <td class="py-3 px-4">
+                <img
+                  src="assets/images/icons/email.png"
+                  (click)="enviarMensaje()"
+                  class="w-[30px] cursor-pointer"
+                  alt=""
+                />
+              </td>
+            </tr>
+            <!-- Registro 7 -->
+            <tr class="border-b">
+              <td class="py-3 px-4">Carla Herrera Díaz</td>
+              <td class="py-3 px-4">Desarrollo</td>
+              <td class="py-3 px-4">Desarrolladora Frontend</td>
+              <td class="py-3 px-4">15/04/2021</td>
+              <td class="py-3 px-4">15/04/2022</td>
+              <td class="py-3 px-4">
+                <span
+                  class="inline-block w-3 h-3 bg-red-500 rounded-full"
+                ></span>
+              </td>
+              <td class="py-3 px-4">
+                <button
+                  class="text-blue-600 hover:underline"
+                  (click)="descargarPDF()"
+                >
+                  Ver
+                </button>
+              </td>
+              <td class="py-3 px-4">
+                <img
+                  src="assets/images/icons/descargar.png"
+                  class="w-[30px]"
+                  alt=""
+                />
+              </td>
+              <td class="py-3 px-4">
+                <img
+                  src="assets/images/icons/adjuntar-azul.png"
+                  (click)="fileInput.click()"
+                  class="w-[30px] cursor-pointer"
+                  alt=""
+                />
+              </td>
+              <td class="py-3 px-4">
+                <img
+                  src="assets/images/icons/email.png"
+                  (click)="enviarMensaje()"
+                  class="w-[30px] cursor-pointer"
+                  alt=""
+                />
+              </td>
+            </tr>
+            <!-- Registro 8 -->
+            <tr class="border-b">
+              <td class="py-3 px-4">Miguel Castro Torres</td>
+              <td class="py-3 px-4">Soporte Técnico</td>
+              <td class="py-3 px-4">Técnico de Soporte</td>
+              <td class="py-3 px-4">18/07/2022</td>
+              <td class="py-3 px-4">18/07/2023</td>
+              <td class="py-3 px-4">
+                <span
+                  class="inline-block w-3 h-3 bg-green-500 rounded-full"
+                ></span>
+              </td>
+              <td class="py-3 px-4">
+                <button
+                  class="text-blue-600 hover:underline"
+                  (click)="descargarPDF()"
+                >
+                  Ver
+                </button>
+              </td>
+              <td class="py-3 px-4">
+                <img
+                  src="assets/images/icons/descargar.png"
+                  class="w-[30px]"
+                  alt=""
+                />
+              </td>
+              <td class="py-3 px-4">
+                <img
+                  src="assets/images/icons/adjuntar-azul.png"
+                  (click)="fileInput.click()"
+                  class="w-[30px] cursor-pointer"
+                  alt=""
+                />
+              </td>
+              <td class="py-3 px-4">
+                <img
+                  src="assets/images/icons/email.png"
+                  (click)="enviarMensaje()"
+                  class="w-[30px] cursor-pointer"
+                  alt=""
+                />
+              </td>
+            </tr>
+            <!-- Registro 9 -->
+            <tr class="border-b">
+              <td class="py-3 px-4">Lucía Ortiz Vega</td>
+              <td class="py-3 px-4">Calidad</td>
+              <td class="py-3 px-4">Ingeniera de Calidad</td>
+              <td class="py-3 px-4">20/11/2021</td>
+              <td class="py-3 px-4">20/11/2022</td>
+              <td class="py-3 px-4">
+                <span
+                  class="inline-block w-3 h-3 bg-red-500 rounded-full"
+                ></span>
+              </td>
+              <td class="py-3 px-4">
+                <button
+                  class="text-blue-600 hover:underline"
+                  (click)="descargarPDF()"
+                >
+                  Ver
+                </button>
+              </td>
+              <td class="py-3 px-4">
+                <img
+                  src="assets/images/icons/descargar.png"
+                  class="w-[30px]"
+                  alt=""
+                />
+              </td>
+              <td class="py-3 px-4">
+                <img
+                  src="assets/images/icons/adjuntar-azul.png"
+                  (click)="fileInput.click()"
+                  class="w-[30px] cursor-pointer"
+                  alt=""
+                />
+              </td>
+              <td class="py-3 px-4">
+                <img
+                  src="assets/images/icons/email.png"
+                  (click)="enviarMensaje()"
+                  class="w-[30px] cursor-pointer"
+                  alt=""
+                />
+              </td>
+            </tr>
+            <!-- Registro 10 -->
+            <tr class="border-b">
+              <td class="py-3 px-4">Fernando Gómez Ruiz</td>
+              <td class="py-3 px-4">Operaciones</td>
+              <td class="py-3 px-4">Coordinador de Operaciones</td>
+              <td class="py-3 px-4">25/06/2020</td>
+              <td class="py-3 px-4">25/06/2021</td>
+              <td class="py-3 px-4">
+                <span
+                  class="inline-block w-3 h-3 bg-green-500 rounded-full"
+                ></span>
+              </td>
+              <td class="py-3 px-4">
+                <button
+                  class="text-blue-600 hover:underline"
+                  (click)="descargarPDF()"
+                >
+                  Ver
+                </button>
+              </td>
+              <td class="py-3 px-4">
+                <img
+                  src="assets/images/icons/descargar.png"
+                  class="w-[30px]"
+                  alt=""
+                />
+              </td>
+              <td class="py-3 px-4">
+                <img
+                  src="assets/images/icons/adjuntar-azul.png"
+                  (click)="fileInput.click()"
+                  class="w-[30px] cursor-pointer"
+                  alt=""
+                />
+              </td>
+              <td class="py-3 px-4">
+                <img
+                  src="assets/images/icons/email.png"
+                  (click)="enviarMensaje()"
+                  class="w-[30px] cursor-pointer"
+                  alt=""
+                />
+              </td>
+              <!-- Input file oculto -->
+              <input
+                type="file"
+                #fileInput
+                (change)="onFileSelected($event)"
+                style="display: none"
+              />
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </div>
+</div>

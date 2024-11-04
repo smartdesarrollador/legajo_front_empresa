@@ -1,0 +1,91 @@
+<section class="min-h-screen flex items-center justify-center bg-[#c6d8e7]">
+  <!-- <a href="#" class="mb-6">
+    <img src="assets/images/img8.png" class="w-32 h-32" alt="Logo" />
+  </a> -->
+  <div class="flex flex-col lg:flex-row w-full max-w-6xl mx-auto">
+    <!-- Formulario -->
+
+    <div
+      class="flex flex-col items-center justify-center w-full lg:w-1/2 bg-white p-8 lg:p-16"
+    >
+      <h1 class="text-2xl font-bold mb-6 text-gray-900">Iniciar sesión</h1>
+      <p class="text-sm font-bold mb-6 text-gray-400">Empresa</p>
+      <form
+        (ngSubmit)="submit()"
+        [formGroup]="form"
+        class="space-y-4 w-full max-w-md"
+      >
+        <div class="mb-4">
+          <label
+            for="email"
+            class="block mb-2 text-sm font-medium text-gray-900"
+            >Correo</label
+          >
+          <input
+            type="email"
+            formControlName="email"
+            name="email"
+            id="email"
+            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+            placeholder="Correo"
+            [ngClass]="{ 'is-invalid': submitted && email.errors }"
+            required
+          />
+          <div
+            *ngIf="submitted && email.errors"
+            class="invalid-feedback texto-rojo"
+          >
+            <div *ngIf="email.errors?.['required']">Correo es requerido</div>
+            <div *ngIf="email.errors?.['email']">
+              El correo debe ser válido.
+            </div>
+          </div>
+        </div>
+        <div class="mb-4">
+          <label
+            for="password"
+            class="block mb-2 text-sm font-medium text-gray-900"
+            >Contraseña</label
+          >
+          <input
+            type="password"
+            formControlName="password"
+            name="password"
+            id="password"
+            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+            placeholder="Contraseña"
+            required
+          />
+          <div
+            *ngIf="submitted && password.errors"
+            class="invalid-feedback texto-rojo"
+          >
+            <div *ngIf="password.errors?.['required']">
+              Se requiere contraseña
+            </div>
+            <div *ngIf="password.errors?.['minlength']">
+              La contraseña debe tener al menos 6 caracteres
+            </div>
+          </div>
+        </div>
+        <button
+          type="submit"
+          class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+        >
+          Ingresar
+        </button>
+      </form>
+    </div>
+
+    <!-- Imagen -->
+    <div
+      class="hidden lg:flex items-center justify-center w-full lg:w-1/2 bg-[#c6d8e7]"
+    >
+      <img
+        src="assets/images/login/imagen_login.jpg"
+        class="max-w-full h-auto"
+        alt="Imagen ilustrativa"
+      />
+    </div>
+  </div>
+</section>

@@ -1,0 +1,135 @@
+<div class="grid grid-cols-1">
+  <div class="bg-white mr-14 mt-20 gap-y-14 p-10 rounded-[35px] shadow-lg">
+    <h2 class="titulo-naranja">Trabajadores</h2>
+    <hr class="bg-naranja h-1" />
+
+    <section class="p-8 min-h-screen">
+      <div class="bg-white p-4 rounded-lg shadow mb-6">
+        <div class="flex items-center justify-between mb-4">
+          <h2 class="text-lg font-medium">Búsqueda de Trabajadores:</h2>
+          <a
+            routerLink="/admin/contratacion/contrato/proceso_2"
+            class="px-4 py-2 bg-blue-600 text-white rounded-lg shadow hover:bg-blue-700"
+          >
+            Nuevo Trabajador
+          </a>
+        </div>
+
+        <form class="space-y-4">
+          <!-- Filtro por Área -->
+          <div>
+            <label for="area" class="block text-sm font-medium text-gray-700"
+              >Área</label
+            >
+            <select
+              id="area"
+              name="area"
+              [(ngModel)]="selectedArea"
+              (change)="onFilterChange()"
+              class="mt-1 block w-[70%] h-10 rounded-md border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+            >
+              <option [value]="null" disabled selected>
+                Selecciona un área
+              </option>
+              <option *ngFor="let area of areas" [value]="area.id_area">
+                {{ area.area }}
+              </option>
+            </select>
+          </div>
+
+          <!-- Filtro por Trabajador (deshabilitado o opcional) -->
+          <div>
+            <label
+              for="trabajador"
+              class="block text-sm font-medium text-gray-700"
+              >Trabajador</label
+            >
+            <input
+              type="text"
+              placeholder="Selecciona un trabajador"
+              class="border rounded p-2 w-[70%]"
+              disabled
+            />
+          </div>
+
+          <!-- Filtro por Tipo de Contrato -->
+          <div>
+            <label
+              for="tipoContrato"
+              class="block text-sm font-medium text-gray-700"
+              >Tipo de Contrato</label
+            >
+            <select
+              id="tipoContrato"
+              name="tipoContrato"
+              [(ngModel)]="selectedTipoContrato"
+              (change)="onFilterChange()"
+              class="mt-1 block w-[70%] h-10 rounded-md border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+            >
+              <option [value]="null" disabled selected>
+                Selecciona un tipo de contrato
+              </option>
+              <option
+                *ngFor="let tipo of tiposContrato"
+                [value]="tipo.id_tipo_contrato"
+              >
+                {{ tipo.tipo_contrato }}
+              </option>
+            </select>
+          </div>
+        </form>
+      </div>
+
+      <!-- Lista de Trabajadores -->
+      <div class="overflow-x-auto">
+        <table class="min-w-full bg-white rounded-lg shadow">
+          <thead>
+            <tr class="bg-gray-200 text-gray-700">
+              <th class="py-3 px-4 text-left">Trabajador</th>
+              <th class="py-3 px-4 text-left">Área</th>
+              <th class="py-3 px-4 text-left">Cargo</th>
+              <th class="py-3 px-4 text-left">Fecha de Inicio</th>
+              <th class="py-3 px-4 text-left">Fecha Cese</th>
+              <th class="py-3 px-4 text-left">Estado</th>
+              <th class="py-3 px-4 text-left">Ver</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let trabajador of trabajadores">
+              <td>{{ trabajador.primer }} {{ trabajador.paterno }}</td>
+              <td>{{ trabajador.area?.area || "No asignada" }}</td>
+              <td>{{ trabajador.cargo?.cargo || "No asignado" }}</td>
+              <td>{{ trabajador.fecha_ingreso | date : "dd/MM/yyyy" }}</td>
+              <td>
+                {{ trabajador.fecha_baja | date : "dd/MM/yyyy" || "N/A" }}
+              </td>
+              <td>
+                <span
+                  [ngClass]="
+                    trabajador.id_estado_trabajador === 1
+                      ? 'bg-green-500'
+                      : 'bg-red-500'
+                  "
+                  class="inline-block w-3 h-3 rounded-full"
+                ></span>
+              </td>
+              <td>
+                <button
+                  (click)="verTrabajador(trabajador.id_trabajador)"
+                  class="text-blue-600 hover:underline"
+                >
+                  Ver
+                </button>
+              </td>
+            </tr>
+            <tr *ngIf="trabajadores.length === 0">
+              <td colspan="7" class="text-center py-4">
+                No se encontraron trabajadores.
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </div>
+</div>

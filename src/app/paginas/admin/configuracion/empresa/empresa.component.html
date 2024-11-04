@@ -1,0 +1,95 @@
+<div class="grid grid-cols-1">
+  <div class="bg-white mr-14 mt-20 gap-y-14 p-10 rounded-[35px] shadow-lg">
+    <h2 class="titulo-naranja">Empresa</h2>
+    <hr class="bg-naranja h-1" />
+
+    <div *ngIf="empleador; else loading">
+      <h2 class="text-xl font-semibold mb-4">Detalles del Empleador</h2>
+      <table class="min-w-full bg-white border border-gray-200 rounded-lg">
+        <tbody>
+          <tr class="border-b">
+            <td class="px-4 py-2 font-bold">ID Empleador:</td>
+            <td class="px-4 py-2">{{ empleador.id_empleador }}</td>
+          </tr>
+          <tr class="border-b">
+            <td class="px-4 py-2 font-bold">Empleador:</td>
+            <td class="px-4 py-2">{{ empleador.empleador }}</td>
+          </tr>
+          <tr class="border-b">
+            <td class="px-4 py-2 font-bold">RUC:</td>
+            <td class="px-4 py-2">{{ empleador.ruc }}</td>
+          </tr>
+          <tr class="border-b">
+            <td class="px-4 py-2 font-bold">Domicilio:</td>
+            <td class="px-4 py-2">{{ empleador.domicilio }}</td>
+          </tr>
+          <tr class="border-b">
+            <td class="px-4 py-2 font-bold">Representante Legal:</td>
+            <td class="px-4 py-2">{{ empleador.representante_legal }}</td>
+          </tr>
+          <tr class="border-b">
+            <td class="px-4 py-2 font-bold">DNI Representante Legal:</td>
+            <td class="px-4 py-2">{{ empleador.dni_representante_legal }}</td>
+          </tr>
+          <tr class="border-b">
+            <td class="px-4 py-2 font-bold">Cargo Representante Legal:</td>
+            <td class="px-4 py-2">{{ empleador.cargo_representante_legal }}</td>
+          </tr>
+          <tr class="border-b">
+            <td class="px-4 py-2 font-bold">Número Partida Poderes:</td>
+            <td class="px-4 py-2">{{ empleador.numero_partida_poderes }}</td>
+          </tr>
+          <tr class="border-b">
+            <td class="px-4 py-2 font-bold">Número Asiento:</td>
+            <td class="px-4 py-2">{{ empleador.numero_asiento }}</td>
+          </tr>
+          <tr class="border-b">
+            <td class="px-4 py-2 font-bold">Oficina Registral:</td>
+            <td class="px-4 py-2">{{ empleador.oficina_registral }}</td>
+          </tr>
+          <tr class="border-b">
+            <td class="px-4 py-2 font-bold">Número Partida Registral:</td>
+            <td class="px-4 py-2">{{ empleador.numero_partida_registral }}</td>
+          </tr>
+          <tr class="border-b">
+            <td class="px-4 py-2 font-bold">Fecha de Inicio de Actividades:</td>
+            <td class="px-4 py-2">
+              {{ empleador.fecha_inicio_actividades | date }}
+            </td>
+          </tr>
+          <tr class="border-b">
+            <td class="px-4 py-2 font-bold">Fecha de Creación:</td>
+            <td class="px-4 py-2">{{ empleador.created_at | date }}</td>
+          </tr>
+          <tr>
+            <td class="px-4 py-2 font-bold">Fecha de Actualización:</td>
+            <td class="px-4 py-2">{{ empleador.updated_at | date }}</td>
+          </tr>
+          <tr>
+            <td class="px-4 py-2 font-bold">Régimen Laboral:</td>
+            <td class="px-4 py-2">
+              <ul class="list-disc pl-5">
+                <li *ngFor="let regimen of empleador.regimen_laboral">
+                  ID: {{ regimen.id_regimen_laboral }} -
+                  {{ regimen.regimen_laboral }}
+                </li>
+              </ul>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- Botón para editar -->
+      <button
+        class="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+        (click)="editarEmpleador(empleador.id_empleador)"
+      >
+        Editar
+      </button>
+    </div>
+
+    <ng-template #loading>
+      <p>Cargando datos del empleador...</p>
+    </ng-template>
+  </div>
+</div>
