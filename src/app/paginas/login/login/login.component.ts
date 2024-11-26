@@ -9,6 +9,9 @@ import { ToastrService } from 'ngx-toastr';
 import { DataService } from 'src/app/services/login/data.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
+import { jwtDecode } from 'jwt-decode';
+import { Empleador } from 'src/app/interface/interface/registro-empleador';
+import { RegistroEmpleadorService } from 'src/app/services/services/registro-empleador.service';
 
 @Component({
   selector: 'app-login',
@@ -16,6 +19,8 @@ import { AuthService } from 'src/app/services/auth.service';
   styleUrls: ['./login.component.css'],
 })
 export class LoginComponent {
+  userData: any;
+  user_id: any;
   form: FormGroup;
   submitted = false;
   data: any;
@@ -27,7 +32,8 @@ export class LoginComponent {
     private dataService: DataService,
     private router: Router,
     private route: ActivatedRoute,
-    private authService: AuthService
+    private authService: AuthService,
+    private empleadorService: RegistroEmpleadorService
   ) {
     this.form = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
@@ -57,16 +63,36 @@ export class LoginComponent {
       if (this.data.status === 1) {
         this.token = this.data.data.token;
         /* localStorage.setItem('token', this.token); */
-        localStorage.setItem('token_empresa', this.token); // Cambiado aquí
-        this.router.navigate(['/admin/dashboard']);
-        /* this.toastr.success(
-          JSON.stringify(this.data.message),
-          JSON.stringify(this.data.code),
-          {
-            timeOut: 2000,
-            progressBar: true,
-          }
-        ); */
+        // Cambiado aquí
+        this.userData = jwtDecode(this.token);
+
+        this.user_id = this.userData.user_id;
+
+        localStorage.setItem('id_user', this.user_id);
+
+        // Obtener el empleador usando el id_user
+        this.empleadorService.getEmpleadorByUserId(this.user_id).subscribe({
+          next: (empleador) => {
+            // Guardar el token y el id_empleador en localStorage
+            localStorage.setItem('token_empresa', this.token);
+            localStorage.setItem(
+              'id_empleador',
+              empleador.id_empleador.toString()
+            );
+
+            this.router.navigate(['/admin/dashboard']);
+          },
+          error: (error) => {
+            this.toastr.error(
+              'Error al obtener información del empleador',
+              'Error',
+              {
+                timeOut: 2000,
+                progressBar: true,
+              }
+            );
+          },
+        });
       } else if (this.data.status === 0) {
         this.toastr.error(
           JSON.stringify(this.data.message),

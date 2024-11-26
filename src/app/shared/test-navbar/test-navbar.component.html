@@ -1,0 +1,59 @@
+<nav class="bg-gray-800 p-4">
+  <div class="container mx-auto">
+    <div class="flex items-center justify-between">
+      <div class="hidden md:flex space-x-4">
+        <a
+          routerLink="/admin/test/listar_empleador"
+          class="text-white hover:text-gray-300"
+          >listar empleadores</a
+        >
+
+        <!-- Dropdown con padding para evitar gap -->
+        <div class="relative group">
+          <button class="text-white hover:text-gray-300 flex items-center">
+            Productos
+            <svg
+              class="w-4 h-4 ml-1"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M19 9l-7 7-7-7"
+              ></path>
+            </svg>
+          </button>
+
+          <!-- Agregado padding-top para cubrir el espacio -->
+          <div
+            class="absolute left-0 pt-2 w-48 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300"
+          >
+            <div class="bg-white rounded-md shadow-lg py-1">
+              <a
+                routerLink="/admin/test/listar_empleador"
+                class="block px-4 py-2 text-gray-800 hover:bg-gray-100"
+                >listar empleadores</a
+              >
+              <a
+                href="#"
+                class="block px-4 py-2 text-gray-800 hover:bg-gray-100"
+                >Producto 2</a
+              >
+              <a
+                href="#"
+                class="block px-4 py-2 text-gray-800 hover:bg-gray-100"
+                >Producto 3</a
+              >
+            </div>
+          </div>
+        </div>
+
+        <a href="#" class="text-white hover:text-gray-300">Servicios</a>
+        <a href="#" class="text-white hover:text-gray-300">Contacto</a>
+      </div>
+    </div>
+  </div>
+</nav>

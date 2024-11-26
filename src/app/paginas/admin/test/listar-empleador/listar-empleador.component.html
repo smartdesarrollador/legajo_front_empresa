@@ -1,0 +1,53 @@
+<div class="empleador-container">
+  <div *ngIf="loading" class="loading">Cargando datos...</div>
+
+  <div *ngIf="error" class="error-message">
+    {{ error }}
+  </div>
+
+  <div *ngIf="empleador && !loading" class="empleador-details">
+    <h2>Detalles del Empleador</h2>
+
+    <div class="info-group">
+      <h3>Información General</h3>
+      <p><strong>Empleador:</strong> {{ empleador.empleador }}</p>
+      <p><strong>RUC:</strong> {{ empleador.ruc }}</p>
+      <p><strong>Domicilio:</strong> {{ empleador.domicilio }}</p>
+    </div>
+
+    <div class="info-group">
+      <h3>Representante Legal</h3>
+      <p><strong>Nombre:</strong> {{ empleador.representante_legal }}</p>
+      <p><strong>DNI:</strong> {{ empleador.dni_representante_legal }}</p>
+      <p><strong>Cargo:</strong> {{ empleador.cargo_representante_legal }}</p>
+    </div>
+
+    <div class="info-group">
+      <h3>Información Registral</h3>
+      <p>
+        <strong>Número de Partida Poderes:</strong>
+        {{ empleador.numero_partida_poderes }}
+      </p>
+      <p><strong>Número de Asiento:</strong> {{ empleador.numero_asiento }}</p>
+      <p>
+        <strong>Oficina Registral:</strong> {{ empleador.oficina_registral }}
+      </p>
+      <p>
+        <strong>Número de Partida Registral:</strong>
+        {{ empleador.numero_partida_registral }}
+      </p>
+    </div>
+
+    <div class="info-group">
+      <h3>Información Adicional</h3>
+      <p>
+        <strong>Fecha de Inicio de Actividades:</strong>
+        {{ empleador.fecha_inicio_actividades | date : "dd/MM/yyyy" }}
+      </p>
+      <p>
+        <strong>Última Actualización:</strong>
+        {{ empleador.updated_at | date : "dd/MM/yyyy HH:mm" }}
+      </p>
+    </div>
+  </div>
+</div>

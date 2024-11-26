@@ -6,13 +6,19 @@ import {
   RouterStateSnapshot,
 } from '@angular/router';
 import { jwtDecode } from 'jwt-decode';
+import { Empleador } from 'src/app/interface/interface/registro-empleador';
+import { RegistroEmpleadorService } from 'src/app/services/services/registro-empleador.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthGuard {
   rol_valor: any;
-  constructor(private router: Router) {}
+  id_user: any;
+  constructor(
+    private router: Router,
+    private empleadorService: RegistroEmpleadorService
+  ) {}
 
   canActivate: CanActivateFn = (
     route: ActivatedRouteSnapshot,
@@ -25,7 +31,7 @@ export class AuthGuard {
         try {
           const decodedToken = jwtDecode<any>(token);
           console.log('Decoded JWT:', decodedToken);
-
+          localStorage.setItem('id_user', decodedToken.user_id);
           this.rol_valor = decodedToken.rol;
         } catch (error) {
           console.error('Error al decodificar el token:', error);
@@ -54,13 +60,25 @@ export class AuthGuard {
         try {
           const decodedToken = jwtDecode<any>(tokenFromUrl);
           console.log('Decoded JWT:', decodedToken);
-
+          localStorage.setItem('id_user', decodedToken.user_id);
           this.rol_valor = decodedToken.rol;
           localStorage.removeItem('token_empresa');
           // Almacenar el token en el localStorage
 
           localStorage.setItem('token_empresa', tokenFromUrl);
           console.log('Token almacenado en localStorage como token_empresa');
+          this.empleadorService
+            .getEmpleadorByUserId(decodedToken.user_id)
+            .subscribe({
+              next: (empleador) => {
+                // Guardar el token y el id_empleador en localStorage
+
+                localStorage.setItem(
+                  'id_empleador',
+                  empleador.id_empleador.toString()
+                );
+              },
+            });
         } catch (error) {
           console.error('Error al decodificar el token:', error);
           this.router.navigate(['auth/login']);
