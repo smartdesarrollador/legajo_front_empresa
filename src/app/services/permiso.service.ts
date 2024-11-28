@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Permisos } from '../interface/permisos';
@@ -11,6 +11,7 @@ import { environment } from 'src/environments/environment';
 })
 export class PermisoService {
   private apiUrl = `${environment.apiBaseUrl}/permisos`;
+  private apiUrlEditar = `${environment.apiBaseUrl}/editar-permisos`;
 
   constructor(private http: HttpClient) {}
 
@@ -81,5 +82,80 @@ export class PermisoService {
         estado_permiso: response.data.estado_permiso || null,
       }))
     );
+  }
+
+  /**
+   * Obtiene un permiso específico para editar
+   */
+  getPermisoParaEditar(id: number): Observable<any> {
+    return this.http
+      .get<any>(`${this.apiUrl}/${id}`)
+      .pipe(map((response) => response.data));
+  }
+
+  /**
+   * Actualiza un permiso existente
+   */
+  editarPermiso(id: number, permiso: any): Observable<any> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+    });
+
+    const permisoData = {
+      fecha_inicio: permiso.fecha_inicio,
+      fecha_fin: permiso.fecha_fin,
+      horas: permiso.horas,
+      motivo: permiso.motivo,
+      id_area: permiso.id_area,
+      id_trabajador: permiso.id_trabajador,
+      jefe_inmediato: permiso.jefe_inmediato,
+      id_estado_permiso: permiso.id_estado_permiso,
+    };
+
+    return this.http
+      .put<any>(`${this.apiUrlEditar}/${id}`, permisoData, { headers })
+      .pipe(
+        map((response) => {
+          if (response.status === 'success') {
+            return {
+              success: true,
+              message: response.message,
+              data: response.data,
+            };
+          } else {
+            throw new Error(
+              response.message || 'Error al actualizar el permiso'
+            );
+          }
+        })
+      );
+  }
+
+  /**
+   * Obtiene las áreas disponibles
+   */
+  getAreas(): Observable<any[]> {
+    return this.http
+      .get<any>(`${environment.apiBaseUrl}/areas`)
+      .pipe(map((response) => response.data));
+  }
+
+  /**
+   * Obtiene los estados de permiso disponibles
+   */
+  getEstadosPermiso(): Observable<any[]> {
+    return this.http
+      .get<any>(`${environment.apiBaseUrl}/estados-permiso`)
+      .pipe(map((response) => response.data));
+  }
+
+  /**
+   * Obtiene los trabajadores disponibles
+   */
+  getTrabajadores(): Observable<any[]> {
+    return this.http
+      .get<any>(`${environment.apiBaseUrl}/trabajadores`)
+      .pipe(map((response) => response.data));
   }
 }

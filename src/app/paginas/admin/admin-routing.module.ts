@@ -26,6 +26,12 @@ const routes: Routes = [
       ),
   },
   {
+    path: 'gestion',
+    component: AdminComponent,
+    loadChildren: () =>
+      import('./gestion/gestion.module').then((m) => m.GestionModule),
+  },
+  {
     path: 'test',
     component: AdminComponent,
     loadChildren: () => import('./test/test.module').then((m) => m.TestModule),
