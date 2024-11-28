@@ -4,6 +4,7 @@ import { TrabajadorService } from 'src/app/services/trabajador.service';
 import { Permisos } from 'src/app/interface/permisos';
 import { FiltroPermisos } from 'src/app/interface/filtro-permisos';
 import { Trabajador } from 'src/app/interface/trabajador';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-permisos',
@@ -19,7 +20,8 @@ export class PermisosComponent implements OnInit {
 
   constructor(
     private permisosService: PermisoService,
-    private trabajadoresService: TrabajadorService
+    private trabajadoresService: TrabajadorService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -61,5 +63,13 @@ export class PermisosComponent implements OnInit {
         this.errorMessage = 'Error al cargar la lista de trabajadores.';
       },
     });
+  }
+
+  /**
+   * Navega a la página de edición del permiso
+   * @param idPermiso ID del permiso a editar
+   */
+  verPermiso(idPermiso: number): void {
+    this.router.navigate(['/admin/gestion/permisos/editar', idPermiso]);
   }
 }
