@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { GestionRoutingModule } from './gestion-routing.module';
+import { ConsultaVacacionesComponent } from './consulta-vacaciones/consulta-vacaciones.component';
 import { PermisosComponent } from './permisos/permisos.component';
 import { LicenciasComponent } from './licencias/licencias.component';
 import { DescansosComponent } from './descansos/descansos.component';
@@ -12,6 +13,7 @@ import { EditarPermisoComponent } from './permisos/editar-permiso/editar-permiso
 
 @NgModule({
   declarations: [
+    ConsultaVacacionesComponent,
     PermisosComponent,
     LicenciasComponent,
     DescansosComponent,
