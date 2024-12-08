@@ -1,0 +1,136 @@
+<div class="container mx-auto mt-10">
+  <div class="bg-white p-8 rounded-lg shadow-md">
+    <h2 class="text-2xl text-[#FF7A00] font-bold mb-6">Licencias</h2>
+
+    <!-- Formulario de búsqueda -->
+    <div class="bg-white p-6 rounded-lg shadow-md mb-6">
+      <h3 class="text-xl font-semibold mb-4">Consulta de Licencias:</h3>
+      <form [formGroup]="consultaForm" (ngSubmit)="onSubmit()">
+        <div class="grid grid-cols-2 gap-6 mb-4">
+          <div>
+            <label
+              for="fecha_desde"
+              class="block text-gray-700 font-semibold mb-2"
+              >Fecha desde:</label
+            >
+            <input
+              type="date"
+              id="fecha_desde"
+              formControlName="fecha_desde"
+              class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            />
+          </div>
+          <div>
+            <label
+              for="fecha_hasta"
+              class="block text-gray-700 font-semibold mb-2"
+              >Fecha hasta:</label
+            >
+            <input
+              type="date"
+              id="fecha_hasta"
+              formControlName="fecha_hasta"
+              class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            />
+          </div>
+        </div>
+
+        <div class="mb-4">
+          <label for="id_area" class="block text-gray-700 font-semibold mb-2"
+            >Area Trabajo:</label
+          >
+          <select
+            id="id_area"
+            formControlName="id_area"
+            class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+          >
+            <option value="">Seleccione area de la empresa</option>
+            <option *ngFor="let area of areas" [value]="area.value">
+              {{ area.label }}
+            </option>
+          </select>
+        </div>
+
+        <div class="mb-6">
+          <label
+            for="id_trabajador"
+            class="block text-gray-700 font-semibold mb-2"
+            >Colaborador:</label
+          >
+          <select
+            id="id_trabajador"
+            formControlName="id_trabajador"
+            class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+          >
+            <option value="">Seleccione un trabajador</option>
+            <option
+              *ngFor="let trabajador of trabajadores"
+              [value]="trabajador.value"
+            >
+              {{ trabajador.label }}
+            </option>
+          </select>
+        </div>
+
+        <div>
+          <button
+            type="submit"
+            class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-lg transition duration-300"
+          >
+            Consultar
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <!-- Tabla de resultados -->
+    <div class="overflow-x-auto">
+      <table class="w-full bg-white rounded-lg shadow-md">
+        <thead>
+          <tr class="bg-gray-100">
+            <th class="px-6 py-3 text-left">Motivo</th>
+            <th class="px-6 py-3 text-left">Fecha Inicio</th>
+            <th class="px-6 py-3 text-left">Fecha Final</th>
+            <th class="px-6 py-3 text-left">Dias</th>
+            <th class="px-6 py-3 text-left">Estado</th>
+            <th class="px-6 py-3 text-left">Acciones</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-gray-200">
+          <tr *ngFor="let licencia of licencias" class="hover:bg-gray-50">
+            <td class="px-6 py-4">{{ licencia.motivo }}</td>
+            <td class="px-6 py-4">{{ licencia.fecha_inicio }}</td>
+            <td class="px-6 py-4">{{ licencia.fecha_fin }}</td>
+            <td class="px-6 py-4">{{ licencia.dias }}</td>
+            <td class="px-6 py-4">
+              <span
+                class="inline-block w-3 h-3 rounded-full"
+                [ngClass]="{
+                  'bg-green-500': licencia.estado === 'Aprobado',
+                  'bg-red-500': licencia.estado !== 'Aprobado'
+                }"
+              >
+              </span>
+            </td>
+            <td class="px-6 py-4">
+              <div class="flex space-x-3">
+                <i
+                  class="fas fa-search text-blue-500 hover:text-blue-700 cursor-pointer"
+                ></i>
+                <i
+                  class="fas fa-download text-blue-500 hover:text-blue-700 cursor-pointer"
+                ></i>
+                <i
+                  class="fas fa-paperclip text-blue-500 hover:text-blue-700 cursor-pointer"
+                ></i>
+                <i
+                  class="fas fa-envelope text-blue-500 hover:text-blue-700 cursor-pointer"
+                ></i>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

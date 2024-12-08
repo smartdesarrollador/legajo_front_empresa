@@ -36,6 +36,7 @@ export class ConsultaVacacionesComponent implements OnInit {
 
   ngOnInit(): void {
     this.cargarDatosIniciales();
+    this.cargarVacaciones();
   }
 
   async cargarDatosIniciales(): Promise<void> {
@@ -55,6 +56,33 @@ export class ConsultaVacacionesComponent implements OnInit {
     } finally {
       this.loading = false;
     }
+  }
+
+  cargarVacaciones(): void {
+    this.loading = true;
+    this.error = null;
+    const userId = localStorage.getItem('id_user');
+
+    if (!userId) {
+      this.error = 'No se encontró id_user en localStorage';
+      this.loading = false;
+      return;
+    }
+
+    this.consultaVacacionesService
+      .consultarVacaciones({ id_user: parseInt(userId) })
+      .subscribe({
+        next: (data) => {
+          this.vacaciones = data || [];
+          this.loading = false;
+        },
+        error: (error) => {
+          console.error('Error al consultar vacaciones:', error);
+          this.error = error.error?.error || 'Error al consultar vacaciones';
+          this.loading = false;
+          this.vacaciones = [];
+        },
+      });
   }
 
   onSubmit(): void {

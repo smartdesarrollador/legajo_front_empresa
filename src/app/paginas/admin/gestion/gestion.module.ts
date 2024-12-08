@@ -10,6 +10,7 @@ import { BoletasComponent } from './boletas/boletas.component';
 import { SancionesComponent } from './sanciones/sanciones.component';
 import { ReconocimientosComponent } from './reconocimientos/reconocimientos.component';
 import { EditarPermisoComponent } from './permisos/editar-permiso/editar-permiso.component';
+import { ConsultaLicenciasComponent } from './licencias/consulta-licencias/consulta-licencias.component';
 
 @NgModule({
   declarations: [
@@ -21,6 +22,7 @@ import { EditarPermisoComponent } from './permisos/editar-permiso/editar-permiso
     SancionesComponent,
     ReconocimientosComponent,
     EditarPermisoComponent,
+    ConsultaLicenciasComponent,
   ],
   imports: [CommonModule, GestionRoutingModule, ReactiveFormsModule],
 })
