@@ -69,17 +69,23 @@
       <table class="min-w-full bg-white rounded-lg shadow">
         <thead>
           <tr class="bg-gray-200 text-gray-700">
+            <th class="py-3 px-4 text-left">Trabajador</th>
             <th class="py-3 px-4 text-left">Motivo</th>
             <th class="py-3 px-4 text-left">Fecha Inicio</th>
             <th class="py-3 px-4 text-left">Fecha Final</th>
             <th class="py-3 px-4 text-left">Horas</th>
             <th class="py-3 px-4 text-left">Estado</th>
-
             <th class="py-3 px-4 text-left">Ver Acuerdo</th>
+            <th class="py-3 px-4 text-left">Editar</th>
           </tr>
         </thead>
         <tbody>
           <tr *ngFor="let permiso of permisos" class="border-b">
+            <td class="py-3 px-4">
+              {{ permiso.trabajador?.primer }}
+              {{ permiso.trabajador?.paterno }}
+              {{ permiso.trabajador?.materno }}
+            </td>
             <td class="py-3 px-4">{{ permiso.motivo }}</td>
             <td class="py-3 px-4">
               {{ permiso.fecha_inicio | date : "dd/MM/yyyy" }}
@@ -98,13 +104,15 @@
                 }"
               ></span>
             </td>
-
+            <td class="py-3 px-4">
+              <button class="text-blue-600 hover:underline">Ver</button>
+            </td>
             <td class="py-3 px-4">
               <button
                 class="text-blue-600 hover:underline"
                 (click)="verPermiso(permiso.id_permiso)"
               >
-                Ver
+                Editar
               </button>
             </td>
           </tr>
