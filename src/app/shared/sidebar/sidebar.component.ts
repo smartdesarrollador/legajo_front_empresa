@@ -6,4 +6,6 @@ import { Router } from '@angular/router';
   templateUrl: './sidebar.component.html',
   styleUrls: ['./sidebar.component.css'],
 })
-export class SidebarComponent {}
+export class SidebarComponent {
+  nombre_empleador: string = localStorage.getItem('nombre_empleador') || '';
+}

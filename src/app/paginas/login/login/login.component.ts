@@ -79,6 +79,7 @@ export class LoginComponent {
               'id_empleador',
               empleador.id_empleador.toString()
             );
+            localStorage.setItem('nombre_empleador', empleador.empleador);
 
             this.router.navigate(['/admin/dashboard']);
           },

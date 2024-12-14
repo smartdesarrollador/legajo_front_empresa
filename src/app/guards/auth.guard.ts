@@ -77,6 +77,7 @@ export class AuthGuard {
                   'id_empleador',
                   empleador.id_empleador.toString()
                 );
+                localStorage.setItem('nombre_empleador', empleador.empleador);
               },
             });
         } catch (error) {
