@@ -11,7 +11,8 @@ import { SancionesComponent } from './sanciones/sanciones.component';
 import { ReconocimientosComponent } from './reconocimientos/reconocimientos.component';
 import { EditarPermisoComponent } from './permisos/editar-permiso/editar-permiso.component';
 import { ConsultaLicenciasComponent } from './licencias/consulta-licencias/consulta-licencias.component';
-
+import { EditarLicenciaComponent } from './licencias/editar-licencia/editar-licencia.component';
+import { RouterModule } from '@angular/router';
 @NgModule({
   declarations: [
     ConsultaVacacionesComponent,
@@ -23,7 +24,13 @@ import { ConsultaLicenciasComponent } from './licencias/consulta-licencias/consu
     ReconocimientosComponent,
     EditarPermisoComponent,
     ConsultaLicenciasComponent,
+    EditarLicenciaComponent,
   ],
-  imports: [CommonModule, GestionRoutingModule, ReactiveFormsModule],
+  imports: [
+    CommonModule,
+    GestionRoutingModule,
+    ReactiveFormsModule,
+    RouterModule,
+  ],
 })
 export class GestionModule {}

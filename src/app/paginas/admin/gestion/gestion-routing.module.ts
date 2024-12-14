@@ -4,7 +4,7 @@ import { PermisosComponent } from './permisos/permisos.component';
 import { EditarPermisoComponent } from './permisos/editar-permiso/editar-permiso.component';
 import { ConsultaVacacionesComponent } from './consulta-vacaciones/consulta-vacaciones.component';
 import { ConsultaLicenciasComponent } from './licencias/consulta-licencias/consulta-licencias.component';
-
+import { EditarLicenciaComponent } from './licencias/editar-licencia/editar-licencia.component';
 const routes: Routes = [
   /* {
     path: 'permisos',
@@ -21,6 +21,10 @@ const routes: Routes = [
   {
     path: 'consulta-licencias',
     component: ConsultaLicenciasComponent,
+  },
+  {
+    path: 'editar-licencia/:id',
+    component: EditarLicenciaComponent,
   },
 ];
 

@@ -94,6 +94,7 @@
             <th class="px-6 py-3 text-left">Dias</th>
             <th class="px-6 py-3 text-left">Estado</th>
             <th class="px-6 py-3 text-left">Acciones</th>
+            <th class="px-6 py-3 text-left">Editar</th>
           </tr>
         </thead>
         <tbody class="divide-y divide-gray-200">
@@ -127,6 +128,14 @@
                   class="fas fa-envelope text-blue-500 hover:text-blue-700 cursor-pointer"
                 ></i>
               </div>
+            </td>
+            <td class="px-6 py-4">
+              <a
+                [routerLink]="['/admin/gestion/editar-licencia', licencia.id]"
+                class="text-blue-600 hover:text-blue-800 hover:underline"
+              >
+                Editar
+              </a>
             </td>
           </tr>
         </tbody>

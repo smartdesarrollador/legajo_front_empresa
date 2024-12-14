@@ -5,8 +5,6 @@ export interface SelectOption {
 
 export interface Licencia {
   id: number;
-  trabajador: string;
-  area: string;
   motivo: string;
   fecha_inicio: string;
   fecha_fin: string;
