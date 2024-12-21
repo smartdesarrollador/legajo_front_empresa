@@ -30,6 +30,7 @@ import { TrabajadoresComponent } from './trabajadores/trabajadores.component';
 import { ConsultaContratoComponent } from './contrato/consulta-contrato/consulta-contrato.component';
 import { PermisosComponent } from './permisos/permisos.component';
 import { RegimenLaboralComponent } from './contrato/regimen-laboral/regimen-laboral.component';
+import { CrearContratoComponent } from './contrato/crear-contrato/crear-contrato.component';
 const routes: Routes = [
   {
     path: 'oferta-laboral',
@@ -142,6 +143,10 @@ const routes: Routes = [
   {
     path: 'contrato/consulta-contrato',
     component: ConsultaContratoComponent,
+  },
+  {
+    path: 'contrato/crear-contrato',
+    component: CrearContratoComponent,
   },
   {
     path: 'permisos',

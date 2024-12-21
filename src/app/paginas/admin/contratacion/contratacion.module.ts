@@ -33,6 +33,7 @@ import { ConsultaContratoComponent } from './contrato/consulta-contrato/consulta
 import { PermisosComponent } from './permisos/permisos.component';
 import { RegimenLaboralComponent } from './contrato/regimen-laboral/regimen-laboral.component';
 import { BrowserModule } from '@angular/platform-browser';
+import { ContratoModule } from './contrato/contrato.module';
 
 @NgModule({
   declarations: [
@@ -71,6 +72,7 @@ import { BrowserModule } from '@angular/platform-browser';
     ContratacionRoutingModule,
     FormsModule,
     ReactiveFormsModule,
+    ContratoModule,
   ],
 })
 export class ContratacionModule {}
