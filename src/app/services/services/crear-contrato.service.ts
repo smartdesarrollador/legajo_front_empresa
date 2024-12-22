@@ -36,10 +36,10 @@ export interface ContratoCreate {
   pregunta_3?: boolean;
   fiscalizacion_inmediata?: boolean;
   jornada_maxima?: boolean;
-  dia_inicio?: string;
-  dia_final?: string;
-  horario_inicio?: string;
-  horario_final?: string;
+  dia_inicio: number;
+  dia_final: number;
+  horario_inicio?: string | null;
+  horario_final?: string | null;
   prevencion_covid?: boolean;
   obligaciones_compromisos?: boolean;
   confidencialidad?: boolean;

@@ -81,13 +81,13 @@ export class PrimerProcesoComponent {
       if (this.cl.getItem('contratoLocal')) {
         const contratoLocaldatos = this.cl.getItem('contratoLocal');
         contratoLocaldatos.trabajador = this.selectedValue;
-        contratoLocaldatos.empleador = this.ultimoIdEmpleador['id_empleador'];
+        contratoLocaldatos.empleador = localStorage.getItem('id_empleador');
 
         this.cl.setItem('contratoLocal', contratoLocaldatos);
       } else {
         this.cl.setItem('contratoLocal', {
           trabajador: this.selectedValue,
-          empleador: this.ultimoIdEmpleador['id_empleador'],
+          empleador: localStorage.getItem('id_empleador'),
         });
       }
 

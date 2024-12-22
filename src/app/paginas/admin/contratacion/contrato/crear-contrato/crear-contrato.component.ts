@@ -72,6 +72,34 @@ export class CrearContratoComponent implements OnInit {
           }
         };
 
+        // Formatear hora
+        const formatearHora = (hora: string | undefined): string | null => {
+          if (!hora) return null;
+          // Convertir "7:00 am" a "07:00:00"
+          const [tiempo, periodo] = hora.split(' ');
+          let [horas, minutos] = tiempo.split(':');
+
+          if (periodo && periodo.toLowerCase() === 'pm') {
+            horas = String(Number(horas) + 12);
+          }
+
+          return `${horas.padStart(2, '0')}:${minutos.padStart(2, '0')}:00`;
+        };
+
+        // Mapear días a números
+        const mapearDia = (dia: string): number => {
+          const dias: { [key: string]: number } = {
+            lunes: 1,
+            martes: 2,
+            miércoles: 3,
+            jueves: 4,
+            viernes: 5,
+            sábado: 6,
+            domingo: 7,
+          };
+          return dias[dia.toLowerCase()] || 1;
+        };
+
         this.contratoData = {
           id_trabajador: Number(contratoLocal.trabajador),
           id_empleador: Number(contratoLocal.empleador),
@@ -103,10 +131,10 @@ export class CrearContratoComponent implements OnInit {
             contratoLocal.fiscalizacion_inmediata
           ),
           jornada_maxima: Boolean(contratoLocal.jornada_maxima),
-          dia_inicio: contratoLocal.dia_inicio,
-          dia_final: contratoLocal.dia_final,
-          horario_inicio: contratoLocal.horario_inicio,
-          horario_final: contratoLocal.horario_final,
+          dia_inicio: mapearDia(contratoLocal.dia_inicio),
+          dia_final: mapearDia(contratoLocal.dia_final),
+          horario_inicio: formatearHora(contratoLocal.horario_inicio),
+          horario_final: formatearHora(contratoLocal.horario_final),
           prevencion_covid: Boolean(contratoLocal.prevencion_covid),
           obligaciones_compromisos: Boolean(
             contratoLocal.obligaciones_compromisos
