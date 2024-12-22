@@ -25,6 +25,7 @@ export class CrearContratoComponent implements OnInit {
 
   ngOnInit(): void {
     this.cargarDatosContrato();
+    this.crearContrato();
   }
 
   cargarDatosContrato(): void {
