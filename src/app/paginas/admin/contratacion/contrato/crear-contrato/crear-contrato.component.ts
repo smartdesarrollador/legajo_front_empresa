@@ -64,9 +64,9 @@ export class CrearContratoComponent implements OnInit {
         const mapearTipoContrato = (tipo: string) => {
           switch (tipo) {
             case 'Contrato modal':
-              return 1;
-            case 'Contrato indefinido':
               return 2;
+            case 'Contrato a plazo indeterminado':
+              return 1;
             default:
               return 1; // valor por defecto
           }
@@ -166,6 +166,8 @@ export class CrearContratoComponent implements OnInit {
         this.error = 'Error al cargar los datos del contrato';
       }
     }
+
+    /* this.obtenerIdTipoContrato(this.contratoData?.tipo_contrato); */
   }
 
   private obtenerIdJornada(jornadaNombre: string): number {
@@ -174,9 +176,13 @@ export class CrearContratoComponent implements OnInit {
     return 1; // Valor temporal
   }
 
-  private obtenerIdTipoContrato(tipoContratoNombre: string): number {
-    // Aquí deberías implementar la lógica para convertir el nombre del tipo de contrato a su ID
-    return 1; // Valor temporal
+  private obtenerIdTipoContrato(tipoContrato: number | undefined): number {
+    /* if (tipoContrato === 1) {
+      return 2;
+    } else if (tipoContrato === 2) {
+      return 1;
+    } */
+    return 1; // Valor por defecto
   }
 
   crearContrato(): void {
