@@ -147,11 +147,9 @@
               <a href="#" class="text-blue-600 hover:underline">Ver</a>
             </td>
             <td class="py-3 px-4">
-              <img
-                src="assets/images/icons/descargar.png"
-                class="w-6"
-                alt="Descargar"
-              />
+              <button (click)="descargarDocumento(contrato.id_contrato)">
+                <i class="fas fa-download"></i>
+              </button>
             </td>
             <td class="py-3 px-4">
               <img

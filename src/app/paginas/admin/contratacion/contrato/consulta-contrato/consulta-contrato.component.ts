@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ContratoService } from 'src/app/services/contrato.service';
+import { ObtenerDatosDocumentoService } from 'src/app/services/services/obtener-datos-documento.service';
 import { Contrato } from 'src/app/interface/contrato';
 import { Area } from 'src/app/interface/area';
 import { EstadoContrato } from 'src/app/interface/estado-contrato';
@@ -25,7 +26,10 @@ export class ConsultaContratoComponent implements OnInit {
   };
   page = 1;
 
-  constructor(private contratoService: ContratoService) {}
+  constructor(
+    private contratoService: ContratoService,
+    private obtenerDatosDocumentoService: ObtenerDatosDocumentoService
+  ) {}
 
   ngOnInit(): void {
     this.loadAreas();
@@ -68,5 +72,23 @@ export class ConsultaContratoComponent implements OnInit {
   applyFilters() {
     this.page = 1; // Resetear a la primera página al aplicar filtros
     this.loadContratos();
+  }
+
+  descargarDocumento(id: number): void {
+    this.obtenerDatosDocumentoService.obtenerDatosDocumento(id).subscribe({
+      next: (response) => {
+        if (response.success) {
+          this.obtenerDatosDocumentoService.generarDocumento(response.data);
+        } else {
+          console.error(
+            'Error al obtener datos del documento:',
+            response.message
+          );
+        }
+      },
+      error: (error) => {
+        console.error('Error al obtener datos del documento:', error);
+      },
+    });
   }
 }
