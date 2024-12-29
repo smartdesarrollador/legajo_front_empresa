@@ -75,29 +75,38 @@ export class CrearContratoComponent implements OnInit {
         // Formatear hora
         const formatearHora = (hora: string | undefined): string | null => {
           if (!hora) return null;
-          // Convertir "7:00 am" a "07:00:00"
-          const [tiempo, periodo] = hora.split(' ');
-          let [horas, minutos] = tiempo.split(':');
+          try {
+            // Separar la hora y el período (AM/PM)
+            const [tiempo, periodo] = hora.split(' ');
+            let [horas, minutos] = tiempo
+              .split(':')
+              .map((num) => parseInt(num));
 
-          if (periodo && periodo.toLowerCase() === 'pm') {
-            horas = String(Number(horas) + 12);
+            // Convertir a formato 24 horas
+            if (periodo) {
+              if (periodo.toLowerCase() === 'pm' && horas !== 12) {
+                horas += 12;
+              } else if (periodo.toLowerCase() === 'am' && horas === 12) {
+                horas = 0;
+              }
+            }
+
+            // Asegurar que los números tengan dos dígitos
+            const horasStr = horas.toString().padStart(2, '0');
+            const minutosStr = minutos.toString().padStart(2, '0');
+
+            // Retornar en formato HH:mm:ss
+            return `${horasStr}:${minutosStr}:00`;
+          } catch (error) {
+            console.error('Error al formatear hora:', error);
+            return null;
           }
-
-          return `${horas.padStart(2, '0')}:${minutos.padStart(2, '0')}:00`;
         };
 
-        // Mapear días a números
-        const mapearDia = (dia: string): number => {
-          const dias: { [key: string]: number } = {
-            lunes: 1,
-            martes: 2,
-            miércoles: 3,
-            jueves: 4,
-            viernes: 5,
-            sábado: 6,
-            domingo: 7,
-          };
-          return dias[dia.toLowerCase()] || 1;
+        // Asegurar que los días tengan un valor por defecto
+        const getDiaValue = (dia: string | undefined): string => {
+          if (!dia) return 'Lunes'; // valor por defecto
+          return dia.charAt(0).toUpperCase() + dia.slice(1).toLowerCase();
         };
 
         this.contratoData = {
@@ -124,15 +133,15 @@ export class CrearContratoComponent implements OnInit {
           remuneracion: Number(contratoLocal.remuneracion),
           trabajador_confianza: Boolean(contratoLocal.trabajador_confianza),
           trabajador_direccion: Boolean(contratoLocal.trabajador_direccion),
-          pregunta_1: Boolean(contratoLocal.pregunta_1),
-          pregunta_2: Boolean(contratoLocal.pregunta_2),
-          pregunta_3: Boolean(contratoLocal.pregunta_3),
+          pregunta_1: contratoLocal.pregunta_1?.toString() || '',
+          pregunta_2: contratoLocal.pregunta_2?.toString() || '',
+          pregunta_3: contratoLocal.pregunta_3?.toString() || '',
           fiscalizacion_inmediata: Boolean(
             contratoLocal.fiscalizacion_inmediata
           ),
           jornada_maxima: Boolean(contratoLocal.jornada_maxima),
-          dia_inicio: mapearDia(contratoLocal.dia_inicio),
-          dia_final: mapearDia(contratoLocal.dia_final),
+          dia_inicio: getDiaValue(contratoLocal.dia_inicio),
+          dia_final: getDiaValue(contratoLocal.dia_final),
           horario_inicio: formatearHora(contratoLocal.horario_inicio),
           horario_final: formatearHora(contratoLocal.horario_final),
           prevencion_covid: Boolean(contratoLocal.prevencion_covid),
@@ -145,6 +154,11 @@ export class CrearContratoComponent implements OnInit {
           exclusividad: Boolean(contratoLocal.exclusividad),
           proteccion_datos: Boolean(contratoLocal.proteccion_datos),
         };
+
+        // Verificar que los datos estén completos antes de enviar
+        if (!this.contratoData.dia_inicio || !this.contratoData.dia_final) {
+          throw new Error('Los días de inicio y fin son requeridos');
+        }
 
         console.log('Datos mapeados:', this.contratoData);
       } catch (error) {
@@ -170,6 +184,13 @@ export class CrearContratoComponent implements OnInit {
       this.error = 'No hay datos para crear el contrato';
       return;
     }
+
+    // Debug
+    console.log('Datos a enviar al servidor:', {
+      dia_inicio: this.contratoData.dia_inicio,
+      dia_final: this.contratoData.dia_final,
+      // otros campos importantes...
+    });
 
     // Validar solo los campos mínimos requeridos
     if (

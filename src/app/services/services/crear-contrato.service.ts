@@ -19,25 +19,25 @@ export interface ContratoCreate {
   motivo_contrato?: string;
   evidencia_documentaria?: string;
   fecha_suplencia?: string | null;
-  genero_suplencia?: string | null;
-  proyecto_obra_determinada?: string | null;
-  ubicacion_obra_determinada?: string | null;
-  objeto_servicio_especifico?: string | null;
-  nombre_servicio_especifico?: string | null;
-  locacion_servicio_especifico?: string | null;
-  objeto_contrato_temporada?: string | null;
-  motivo_contrato_temporada?: string | null;
-  evidencia_contrato_temporada?: string | null;
+  genero_suplencia?: string;
+  proyecto_obra_determinada?: string;
+  ubicacion_obra_determinada?: string;
+  objeto_servicio_especifico?: string;
+  nombre_servicio_especifico?: string;
+  locacion_servicio_especifico?: string;
+  objeto_contrato_temporada?: string;
+  motivo_contrato_temporada?: string;
+  evidencia_contrato_temporada?: string;
   remuneracion?: number;
   trabajador_confianza?: boolean;
   trabajador_direccion?: boolean;
-  pregunta_1?: boolean;
-  pregunta_2?: boolean;
-  pregunta_3?: boolean;
+  pregunta_1?: string;
+  pregunta_2?: string;
+  pregunta_3?: string;
   fiscalizacion_inmediata?: boolean;
   jornada_maxima?: boolean;
-  dia_inicio: number;
-  dia_final: number;
+  dia_inicio: string;
+  dia_final: string;
   horario_inicio?: string | null;
   horario_final?: string | null;
   prevencion_covid?: boolean;
@@ -65,6 +65,34 @@ export class CrearContratoService {
   constructor(private http: HttpClient) {}
 
   crearContrato(contrato: ContratoCreate): Observable<ResponseData> {
+    // Validar campos requeridos
+    if (!contrato.dia_inicio || !contrato.dia_final) {
+      return throwError(() => ({
+        success: false,
+        message: 'Los días de inicio y fin son campos requeridos',
+        error: 'Required fields missing',
+      }));
+    }
+
+    // Validar formato de hora antes de enviar
+    const validarFormatoHora = (hora: string | null | undefined): boolean => {
+      if (!hora) return true;
+      const regex = /^([0-1]?[0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]$/;
+      return regex.test(hora);
+    };
+
+    // Validar las horas antes de enviar
+    if (
+      !validarFormatoHora(contrato.horario_inicio) ||
+      !validarFormatoHora(contrato.horario_final)
+    ) {
+      return throwError(() => ({
+        success: false,
+        message: 'El formato de hora debe ser HH:mm:ss',
+        error: 'Invalid time format',
+      }));
+    }
+
     console.log('Datos a enviar:', contrato);
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
@@ -80,10 +108,8 @@ export class CrearContratoService {
           let errorMessage = 'Ocurrió un error al crear el contrato';
 
           if (error.error instanceof ErrorEvent) {
-            // Error del lado del cliente
             errorMessage = `Error: ${error.error.message}`;
           } else {
-            // Error del lado del servidor
             if (error.status === 500) {
               errorMessage =
                 'Error interno del servidor: ' +
