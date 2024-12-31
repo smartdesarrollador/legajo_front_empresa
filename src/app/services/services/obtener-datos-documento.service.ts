@@ -47,7 +47,7 @@ export class ObtenerDatosDocumentoService {
             new Paragraph({
               children: [
                 new TextRun({
-                  text: `- ${datos.empleador.nombre} identificada con RUC Nº ${datos.empleador.ruc}, con domicilio en ${datos.empleador.direccion}, debidamente representada por ${datos.empleador.representante_legal} identificado con DNI Nº __________ en calidad de _______, según poder inscrito en la Partida Electrónica Nº _____ Asiento ________ del Registro de Personas Jurídicas de la Oficina Registral de ______, a quien en adelante se le denominará EL EMPLEADOR y de la otra parte,\n\n`,
+                  text: `- ${datos.empleador.nombre}     identificada con RUC Nº ${datos.empleador.ruc}, con domicilio en ${datos.empleador.direccion}, debidamente representada por ${datos.empleador.representante_legal} identificado con DNI Nº __________ en calidad de _______, según poder inscrito en la Partida Electrónica Nº _____ Asiento ________ del Registro de Personas Jurídicas de la Oficina Registral de ______, a quien en adelante se le denominará EL EMPLEADOR y de la otra parte,\n\n`,
                 }),
               ],
             }),
