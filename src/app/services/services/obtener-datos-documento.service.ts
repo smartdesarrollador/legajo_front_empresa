@@ -2,14 +2,76 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import {
-  Document,
-  Packer,
-  Paragraph,
-  TextRun,
-  HeadingLevel,
-  AlignmentType,
-} from 'docx';
+import { Document, Packer } from 'docx';
+import { contratoInicioActividadDocx } from './funciones-contratos.ts/contrato-inicio-actividad-docx';
+import { dateFunctions } from 'src/app/utils/dateFunctions';
+
+interface ContratoDocumentoResponse {
+  success: boolean;
+  message: string;
+  data: {
+    contrato: {
+      numero: number;
+      fecha_inicio: string;
+      fecha_fin: string;
+      observacion: string;
+      estado: string;
+      tipo_contrato: string;
+      jornada_laboral: string;
+    };
+    empleador: {
+      nombre: string;
+      ruc: string;
+      domicilio: string;
+      representante_legal: string;
+    };
+    trabajador: {
+      nombres: string;
+      apellidos: string;
+      numero_documento: string;
+      direccion: string;
+      area: string;
+      cargo: string;
+      funciones: string;
+    };
+    detalle: {
+      remuneracion: number;
+      horario_inicio: string;
+      horario_final: string;
+      dia_inicio: string;
+      dia_final: string;
+      oferta_laboral: string;
+      motivo_contrato: string;
+      evidencia_documentaria: string;
+      fecha_suplencia: string;
+      genero_suplencia: string;
+      proyecto_obra_determinada: string;
+      ubicacion_obra_determinada: string;
+      objeto_servicio_especifico: string;
+      nombre_servicio_especifico: string;
+      locacion_servicio_especifico: string;
+      objeto_contrato_temporada: string;
+      motivo_contrato_temporada: string;
+      evidencia_contrato_temporada: string;
+    };
+    condiciones: {
+      trabajador_confianza: boolean;
+      trabajador_direccion: boolean;
+      pregunta_1: string;
+      pregunta_2: string;
+      pregunta_3: string;
+      fiscalizacion_inmediata: boolean;
+      jornada_maxima: boolean;
+      prevencion_covid: boolean;
+      obligaciones_compromisos: boolean;
+      confidencialidad: boolean;
+      propiedad_intelectual: boolean;
+      tecnologia_informacion: boolean;
+      exclusividad: boolean;
+      proteccion_datos: boolean;
+    };
+  };
+}
 
 @Injectable({
   providedIn: 'root',
@@ -17,158 +79,80 @@ import {
 export class ObtenerDatosDocumentoService {
   private apiUrl = `${environment.apiBaseUrl}/contratos`;
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private convertirFormatoFecha: dateFunctions
+  ) {}
 
-  obtenerDatosDocumento(id: number): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}/${id}/documento`);
+  obtenerDatosDocumento(id: number): Observable<ContratoDocumentoResponse> {
+    return this.http.get<ContratoDocumentoResponse>(
+      `${this.apiUrl}/${id}/documento`
+    );
   }
 
-  async generarDocumento(datos: any): Promise<void> {
-    const doc = new Document({
-      sections: [
-        {
-          properties: {},
-          children: [
-            // Título
-            new Paragraph({
-              text: 'CONTRATO DE TRABAJO SUJETO A MODALIDAD POR INICIO DE ACTIVIDAD',
-              heading: HeadingLevel.HEADING_1,
-              alignment: AlignmentType.CENTER,
-              spacing: { before: 200, after: 200 },
-            }),
+  async generarDocumentoContrato(
+    registroTrabajador: any,
+    registroEmpleador: any,
+    datosLocales: any,
+    prueba_meses: string,
+    prueba_inicio: string,
+    prueba_termino: string,
+    fechaFormateada: string,
+    num_valores: Array<string>,
+    fechaActualValor: string
+  ): Promise<void> {
+    try {
+      // Validar datos antes de procesar
+      if (!registroTrabajador || !registroEmpleador || !datosLocales) {
+        throw new Error('Datos incompletos para generar el documento');
+      }
 
-            // Primer párrafo
-            new Paragraph({
-              text: 'Conste mediante el presente documento, suscrito por duplicado con igual valor y tenor, el Contrato Individual de Trabajo por inicio de actividad que celebran, de conformidad con lo establecido por el Texto Único Ordenado del Decreto Legislativo N° 728 – Ley de Productividad y Competitividad Laboral aprobado por el Decreto Supremo N° 003-97-TR, de una parte,',
-              spacing: { after: 200 },
-            }),
+      console.log('Datos para generar documento:', {
+        registroTrabajador,
+        registroEmpleador,
+        datosLocales,
+        prueba_meses,
+        prueba_inicio,
+        prueba_termino,
+        fechaFormateada,
+        num_valores,
+        fechaActualValor,
+      });
 
-            // Datos del Empleador
-            new Paragraph({
-              children: [
-                new TextRun({
-                  text: `- ${datos.empleador.nombre}     identificada con RUC Nº ${datos.empleador.ruc}, con domicilio en ${datos.empleador.direccion}, debidamente representada por ${datos.empleador.representante_legal} identificado con DNI Nº __________ en calidad de _______, según poder inscrito en la Partida Electrónica Nº _____ Asiento ________ del Registro de Personas Jurídicas de la Oficina Registral de ______, a quien en adelante se le denominará EL EMPLEADOR y de la otra parte,\n\n`,
-                }),
-              ],
-            }),
+      const doc = contratoInicioActividadDocx(
+        registroTrabajador,
+        registroEmpleador,
+        datosLocales,
+        prueba_meses,
+        prueba_inicio,
+        prueba_termino,
+        fechaFormateada,
+        num_valores,
+        fechaActualValor,
+        this.convertirFormatoFecha
+      );
 
-            // Datos del Trabajador
-            new Paragraph({
-              children: [
-                new TextRun({
-                  text: `- ${datos.trabajador.nombres} ${datos.trabajador.apellidos} identificado con DNI Nº ${datos.trabajador.dni}, domiciliado en ${datos.trabajador.direccion}, provincia y Departamento de Lima, a quien en adelante se le denominará EL TRABAJADOR.\n\n`,
-                }),
-              ],
-            }),
-
-            // Las Partes
-            new Paragraph({
-              text: 'A quienes se les puede denominar "LAS PARTES", en los términos y condiciones siguientes:',
-              spacing: { after: 200 },
-            }),
-
-            // CLÁUSULA PRIMERA
-            new Paragraph({
-              children: [
-                new TextRun({
-                  text: 'CLÁUSULA PRIMERA. - ANTECEDENTES',
-                  bold: true,
-                }),
-              ],
-              spacing: { before: 200, after: 200 },
-            }),
-
-            new Paragraph({
-              text: `1.1. EL EMPLEADOR es una persona jurídica constituida bajo las leyes de la República de Perú que corre inscrita en la Partida Electrónica Nº ______ del Registro de Personas Jurídicas de _________ y tiene por objeto social dedicarse a ________.\n\n`,
-            }),
-
-            new Paragraph({
-              text: `1.2. Siendo que EL EMPLEADOR inició sus actividades con fecha ${datos.contrato.fecha_inicio}, tal como consta en el Registro de SUNAT, requiere contratar de manera temporal los servicios de un profesional para desempeñar el cargo de ${datos.trabajador.cargo}.\n\n`,
-            }),
-
-            // CLÁUSULA SEGUNDA
-            new Paragraph({
-              children: [
-                new TextRun({
-                  text: 'CLÁUSULA SEGUNDA. - OBJETO DEL CONTRATO',
-                  bold: true,
-                }),
-              ],
-              spacing: { before: 200, after: 200 },
-            }),
-
-            new Paragraph({
-              text: `Siendo que las actividades de EL EMPLEADOR iniciaron con fecha ${datos.contrato.fecha_inicio}, por medio del presente contrato, y al amparo de la legislación laboral vigente, EL EMPLEADOR contrata de forma temporal y bajo la modalidad de inicio de actividad a EL TRABAJADOR, para que desempeñe sus funciones en el puesto de ${datos.trabajador.cargo} y lo haga de manera personal, bajo subordinación...`,
-            }),
-
-            // CLÁUSULA SEXTA - JORNADA LABORAL
-            new Paragraph({
-              children: [
-                new TextRun({
-                  text: 'CLÁUSULA SEXTA. - JORNADA LABORAL',
-                  bold: true,
-                }),
-              ],
-              spacing: { before: 200, after: 200 },
-            }),
-
-            new Paragraph({
-              text: `El horario de trabajo será de ${datos.detalle.dia_inicio} a ${datos.detalle.dia_final} de ${datos.detalle.horario_inicio} a ${datos.detalle.horario_final}, incluido los 45 minutos de refrigerio, los cuales no forman parte de la jornada ni del horario de trabajo.\n\n`,
-            }),
-
-            // CLÁUSULA OCTAVA - REMUNERACIÓN
-            new Paragraph({
-              children: [
-                new TextRun({
-                  text: 'CLÁUSULA OCTAVA.- REMUNERACIÓN',
-                  bold: true,
-                }),
-              ],
-              spacing: { before: 200, after: 200 },
-            }),
-
-            new Paragraph({
-              text: `EL TRABAJADOR percibirá como contraprestación por sus servicios una remuneración mensual básica ascendente a S/ ${
-                datos.detalle.remuneracion
-              }.00 (${this.numeroALetras(
-                datos.detalle.remuneracion
-              )} con 00/100 soles), durante el tiempo de duración de la relación laboral.\n\n`,
-            }),
-
-            // Firmas
-            new Paragraph({
-              text: `\n\nHecho y firmado en Lima, ${new Date().toLocaleDateString()}, en dos ejemplares de un mismo tenor para constancia de las partes.\n\n\n`,
-              alignment: AlignmentType.CENTER,
-              spacing: { before: 400 },
-            }),
-
-            new Paragraph({
-              text: '____________________________                                   ____________________________',
-              alignment: AlignmentType.CENTER,
-            }),
-            new Paragraph({
-              text: 'EL EMPLEADOR                                                                EL TRABAJADOR',
-              alignment: AlignmentType.CENTER,
-            }),
-          ],
-        },
-      ],
-    });
-
-    const blob = await Packer.toBlob(doc);
-    const url = window.URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    document.body.appendChild(a);
-    a.style.display = 'none';
-    a.href = url;
-    a.download = `Contrato_${datos.contrato.numero}.docx`;
-    a.click();
-    window.URL.revokeObjectURL(url);
-    document.body.removeChild(a);
+      const blob = await Packer.toBlob(doc);
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      document.body.appendChild(a);
+      a.style.display = 'none';
+      a.href = url;
+      a.download = `Contrato_${
+        datosLocales.oferta_laboral || 'sin_nombre'
+      }.docx`;
+      a.click();
+      window.URL.revokeObjectURL(url);
+      document.body.removeChild(a);
+    } catch (error: unknown) {
+      const err = error as Error;
+      console.error('Error detallado al generar el documento:', err);
+      console.error('Stack trace:', err.stack);
+      throw err;
+    }
   }
 
   private numeroALetras(numero: number): string {
-    // Aquí puedes implementar la conversión de números a letras
     return numero.toString();
   }
 }

@@ -1,0 +1,92 @@
+COMPONENTE DuodecimoProceso
+
+VARIABLES GLOBALES:
+- datosLocales: objeto para almacenar datos del contrato
+- registroTrabajador: datos del trabajador
+- registroEmpleador: datos del empleador 
+- urlpdf: URL del PDF generado
+- safePdfUrl: URL segura del PDF
+- prueba_meses: período de prueba en meses
+- prueba_inicio: fecha inicio período prueba
+- prueba_termino: fecha fin período prueba
+- fechaFormateada: fecha con formato específico
+- num_valores: array de valores de numeración
+- fechaActual: fecha actual
+- fechaActualValor: fecha actual formateada
+- estadoTipoContrato: booleano para tipo de contrato
+- valorTipoContrato: string del tipo de contrato
+
+INICIALIZACIÓN (ngOnInit):
+1. Obtener datos del localStorage
+2. Determinar tipo de contrato
+3. Calcular numeración de valores
+4. Calcular período de prueba según tipo de trabajador:
+   - Si es trabajador de confianza: 6 meses
+   - Si es trabajador de dirección: 12 meses 
+   - Caso contrario: 3 meses
+
+5. Obtener datos del trabajador y empleador en paralelo
+6. Cuando se tengan los datos:
+   - Seleccionar modelo de contrato según tipo
+   - Generar PDF según modelo seleccionado
+   - Formatear fecha actual
+
+FUNCIÓN numeracion_valores():
+1. Obtener datos del localStorage
+2. Definir array de cláusulas visibles según modelo de contrato
+3. Definir array de ordinales (PRIMERA, SEGUNDA, etc.)
+4. Por cada cláusula:
+   - Si es visible: agregar ordinal correspondiente
+   - Si no es visible: agregar "Sin_valor"
+5. Retornar array final
+
+FUNCIÓN sumarMeses(meses):
+1. Crear nueva fecha
+2. Sumar meses especificados
+3. Retornar nueva fecha
+
+FUNCIÓN formatearFecha(fecha):
+1. Extraer día, mes y año
+2. Retornar fecha en formato "dd/mm/yyyy"
+
+FUNCIÓN generarPdfMake(docDefinition):
+1. Crear PDF con definición proporcionada
+2. Obtener URL de datos del PDF
+3. Convertir a URL segura
+4. Actualizar variables de URL del PDF
+
+FUNCIÓN getTrabajador(id):
+1. Llamar al servicio para obtener datos del trabajador
+2. Retornar observable
+
+FUNCIÓN getEmpleador():
+1. Llamar al servicio para obtener último empleador
+2. Retornar observable
+
+MODELOS DE CONTRATO SOPORTADOS:
+- Contrato inicio actividad
+- Contrato incremento actividad  
+- Contrato necesidad mercado
+- Contrato reconversión empresarial
+- Contrato ocasional
+- Contrato suplencia
+- Contrato emergencia
+- Contrato obra determinada
+- Contrato servicio específico
+- Contrato intermitente
+- Contrato temporada
+- Contrato innominado
+- Contrato indeterminado
+- Contrato indeterminado sin fiscalización
+- Contrato indeterminado con fiscalización
+
+PROCESO PRINCIPAL:
+1. Inicializar componente
+2. Cargar datos necesarios
+3. Determinar tipo de contrato
+4. Generar numeración
+5. Calcular períodos
+6. Obtener datos de trabajador y empleador
+7. Generar contrato según modelo
+8. Crear PDF
+9. Mostrar PDF en interfaz
