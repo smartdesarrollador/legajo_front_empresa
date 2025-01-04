@@ -22,6 +22,9 @@ interface TrabajadorAdaptado {
   apellido_materno: string;
   numero_documento: string;
   direccion: string;
+  area?: string;
+  cargo?: string;
+  funciones?: string;
 }
 
 interface EmpleadorAdaptado {
@@ -29,12 +32,42 @@ interface EmpleadorAdaptado {
   ruc: string;
   domicilio: string;
   representante_legal: string;
+  actividad_economica: string;
+  numero_partida_registral: string;
+  numero_asiento: string;
+  oficina_registral: string;
+  dni_representante_legal: string;
+  cargo_representante_legal: string;
 }
 
 export function contratoInicioActividadDocx(
   registroTrabajador: TrabajadorAdaptado,
   registroEmpleador: EmpleadorAdaptado,
-  datosLocales: any,
+  datosLocales: {
+    modelo_contrato: string;
+    fecha_inicio: string;
+    fecha_fin: string;
+    fecha_renovacion: string;
+    oferta_laboral: string;
+    remuneracion: number;
+    horario_inicio: string;
+    horario_final: string;
+    dia_inicio: string;
+    dia_final: string;
+    motivo_contrato: string;
+    evidencia_documentaria: string;
+    trabajador_confianza?: boolean;
+    trabajador_direccion?: boolean;
+    fiscalizacion_inmediata?: boolean;
+    jornada_maxima?: boolean;
+    prevencion_covid?: boolean;
+    obligaciones_compromisos?: boolean;
+    confidencialidad?: boolean;
+    propiedad_intelectual?: boolean;
+    tecnologia_informacion?: boolean;
+    exclusividad?: boolean;
+    proteccion_datos?: boolean;
+  },
   prueba_meses: string,
   prueba_inicio: string,
   prueba_termino: string,

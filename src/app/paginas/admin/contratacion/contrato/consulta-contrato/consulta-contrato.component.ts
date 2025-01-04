@@ -84,25 +84,15 @@ export class ConsultaContratoComponent implements OnInit {
 
       if (response && response.success) {
         const data = response.data;
-        console.log(
-          'Datos completos recibidos:',
-          JSON.stringify(data, null, 2)
-        );
+        console.log('Datos del contrato:', data);
+        console.log('Tipo de contrato recibido:', data.contrato.tipo_contrato);
 
-        // Validar estructura de datos
-        if (!data.trabajador || !data.empleador || !data.contrato) {
-          throw new Error('Estructura de datos incompleta');
-        }
-
-        // Adaptar los datos del trabajador con validaciones
-        const nombres = data.trabajador.nombres?.split(' ') || ['', ''];
-        const apellidos = data.trabajador.apellidos?.split(' ') || ['', ''];
-
+        // Adaptar los datos del trabajador
         const trabajadorAdaptado = {
-          primer_nombre: nombres[0] || '',
-          segundo_nombre: nombres[1] || '',
-          apellido_paterno: apellidos[0] || '',
-          apellido_materno: apellidos[1] || '',
+          primer_nombre: data.trabajador.nombres?.split(' ')[0] || '',
+          segundo_nombre: data.trabajador.nombres?.split(' ')[1] || '',
+          apellido_paterno: data.trabajador.apellidos?.split(' ')[0] || '',
+          apellido_materno: data.trabajador.apellidos?.split(' ')[1] || '',
           numero_documento: data.trabajador.numero_documento || '',
           direccion: data.trabajador.direccion || '',
         };
@@ -113,11 +103,21 @@ export class ConsultaContratoComponent implements OnInit {
           ruc: data.empleador.ruc || '',
           domicilio: data.empleador.domicilio || '',
           representante_legal: data.empleador.representante_legal || '',
+          actividad_economica: data.empleador.actividad_economica || '',
+          domiciliado: data.empleador.domicilio || '',
+          numero_partida_registral:
+            data.empleador.numero_partida_registral || '',
+          numero_asiento: data.empleador.numero_asiento || '',
+          oficina_registral: data.empleador.oficina_registral || '',
+          dni_representante_legal: data.empleador.dni_representante_legal || '',
+          cargo_representante_legal:
+            data.empleador.cargo_representante_legal || '',
         };
 
         // Adaptar datos locales
         const datosLocalesAdaptados = {
-          modelo_contrato: data.contrato.tipo_contrato,
+          ...data.detalle,
+          modelo_contrato: data.contrato.tipo_contrato || 'INDETERMINADO',
           fecha_inicio: data.contrato.fecha_inicio,
           fecha_fin: data.contrato.fecha_fin || '',
           oferta_laboral: data.detalle.oferta_laboral,
@@ -126,15 +126,19 @@ export class ConsultaContratoComponent implements OnInit {
           horario_final: data.detalle.horario_final,
           dia_inicio: data.detalle.dia_inicio,
           dia_final: data.detalle.dia_final,
+          motivo_contrato: data.detalle.motivo_contrato || '',
+          evidencia_documentaria: data.detalle.evidencia_documentaria || '',
+          objeto_servicio_especifico:
+            data.detalle.objeto_servicio_especifico || '',
           ...data.condiciones,
         };
 
         // Calcular período de prueba
-        let prueba_meses = '3 Meses';
-        let prueba_inicio = data.contrato.fecha_inicio;
-        let prueba_termino = this.calcularFechaTermino(
-          data.contrato.fecha_inicio,
-          3
+        const prueba_meses = this.calcularMesesPrueba(data.condiciones);
+        const prueba_inicio = data.contrato.fecha_inicio;
+        const prueba_termino = this.calcularFechaTermino(
+          prueba_inicio,
+          parseInt(prueba_meses)
         );
 
         // Obtener numeración de valores
@@ -160,17 +164,19 @@ export class ConsultaContratoComponent implements OnInit {
           num_valores,
           fechaActualValor
         );
-      } else {
-        console.error(
-          'Error al obtener datos del documento:',
-          response?.message
-        );
       }
-    } catch (error: unknown) {
-      const err = error as Error;
-      console.error('Error detallado al procesar el documento:', err);
-      console.error('Stack trace:', err.stack);
+    } catch (error) {
+      console.error('Error al descargar el documento:', error);
     }
+  }
+
+  private calcularMesesPrueba(condiciones: any): string {
+    if (condiciones.trabajador_confianza) {
+      return '6 Meses';
+    } else if (condiciones.trabajador_direccion) {
+      return '12 Meses';
+    }
+    return '3 Meses';
   }
 
   private calcularFechaTermino(fechaInicio: string, meses: number): string {
@@ -198,21 +204,7 @@ export class ConsultaContratoComponent implements OnInit {
       'DECIMOQUINTA',
     ];
 
-    // Determinar cláusulas visibles según el tipo de contrato
-    const clausulasVisibles = new Array(ordinales.length).fill(true);
-
     // Aquí puedes agregar lógica específica según el tipo de contrato
-    // Por ejemplo:
-    switch (tipoContrato) {
-      case 'Contrato modal':
-        // Configurar visibilidad específica para contrato modal
-        break;
-      case 'Contrato indeterminado':
-        // Configurar visibilidad específica para contrato indeterminado
-        break;
-      // Agregar más casos según necesites
-    }
-
-    return ordinales.filter((_, index) => clausulasVisibles[index]);
+    return ordinales;
   }
 }

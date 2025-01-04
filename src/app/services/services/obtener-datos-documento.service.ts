@@ -3,8 +3,24 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Document, Packer } from 'docx';
-import { contratoInicioActividadDocx } from './funciones-contratos/contrato-inicio-actividad-docx';
 import { dateFunctions } from 'src/app/utils/dateFunctions';
+
+// Importar todas las funciones de contratos docx
+import { contratoInicioActividadDocx } from './funciones-contratos/contrato-inicio-actividad-docx';
+import { contratoIncrementoActividadDocx } from './funciones-contratos/contrato-incremento-actividad-docx';
+import { contratoDeEmergenciaDocx } from './funciones-contratos/contrato-de-emergencia-docx';
+import { contratoIndeterminadoConFiscalizacionDocx } from './funciones-contratos/contrato-indeterminado-con-fiscalizacion-docx';
+import { contratoIndeterminadoSinFiscalizacionDocx } from './funciones-contratos/contrato-indeterminado-sin-fiscalizacion-docx';
+import { contratoIndeterminadoDocx } from './funciones-contratos/contrato-indeterminado-docx';
+import { contratoInnominadoDocx } from './funciones-contratos/contrato-innominado-docx';
+import { contratoIntermitenteDocx } from './funciones-contratos/contrato-intermitente-docx';
+import { contratoNecesidadMercadoDocx } from './funciones-contratos/contrato-necesidad-mercado-docx';
+import { contratoObraDeterminadaDocx } from './funciones-contratos/contrato-obra-determinada-docx';
+import { contratoOcacionalDocx } from './funciones-contratos/contrato-ocacional-docx';
+import { contratoPorSuplenciaDocx } from './funciones-contratos/contrato-por-suplencia-docx';
+import { contratoPorTemporadaDocx } from './funciones-contratos/contrato-por-temporada-docx';
+import { contratoReconversionEmpresarialDocx } from './funciones-contratos/contrato-reconversion-empresarial-docx';
+import { contratoServicioEspecificoDocx } from './funciones-contratos/contrato-servicio-especifico-docx';
 
 interface ContratoDocumentoResponse {
   success: boolean;
@@ -24,6 +40,12 @@ interface ContratoDocumentoResponse {
       ruc: string;
       domicilio: string;
       representante_legal: string;
+      actividad_economica: string;
+      numero_partida_registral: string;
+      numero_asiento: string;
+      oficina_registral: string;
+      dni_representante_legal: string;
+      cargo_representante_legal: string;
     };
     trabajador: {
       nombres: string;
@@ -102,35 +124,235 @@ export class ObtenerDatosDocumentoService {
     fechaActualValor: string
   ): Promise<void> {
     try {
-      // Validar datos antes de procesar
+      console.log('Tipo de contrato recibido:', datosLocales.modelo_contrato);
       if (!registroTrabajador || !registroEmpleador || !datosLocales) {
         throw new Error('Datos incompletos para generar el documento');
       }
 
-      console.log('Datos para generar documento:', {
-        registroTrabajador,
-        registroEmpleador,
-        datosLocales,
-        prueba_meses,
-        prueba_inicio,
-        prueba_termino,
-        fechaFormateada,
-        num_valores,
-        fechaActualValor,
-      });
+      let doc: Document;
 
-      const doc = contratoInicioActividadDocx(
-        registroTrabajador,
-        registroEmpleador,
-        datosLocales,
-        prueba_meses,
-        prueba_inicio,
-        prueba_termino,
-        fechaFormateada,
-        num_valores,
-        fechaActualValor,
-        this.convertirFormatoFecha
-      );
+      switch (datosLocales.modelo_contrato.toUpperCase()) {
+        case 'INDETERMINADO':
+        case 'CONTRATO INDETERMINADO':
+        case 'CONTRATO DE TRABAJO INDETERMINADO':
+          doc = contratoIndeterminadoDocx(
+            registroTrabajador,
+            registroEmpleador,
+            datosLocales,
+            prueba_meses,
+            prueba_inicio,
+            prueba_termino,
+            fechaFormateada,
+            num_valores,
+            fechaActualValor,
+            this.convertirFormatoFecha
+          );
+          break;
+        case 'CONTRATO DE TRABAJO SUJETO A MODALIDAD POR INICIO DE ACTIVIDAD':
+          doc = contratoInicioActividadDocx(
+            registroTrabajador,
+            registroEmpleador,
+            datosLocales,
+            prueba_meses,
+            prueba_inicio,
+            prueba_termino,
+            fechaFormateada,
+            num_valores,
+            fechaActualValor,
+            this.convertirFormatoFecha
+          );
+          break;
+        case 'CONTRATO DE TRABAJO SUJETO A MODALIDAD POR INCREMENTO DE ACTIVIDAD':
+          doc = contratoIncrementoActividadDocx(
+            registroTrabajador,
+            registroEmpleador,
+            datosLocales,
+            prueba_meses,
+            prueba_inicio,
+            prueba_termino,
+            fechaFormateada,
+            num_valores,
+            fechaActualValor,
+            this.convertirFormatoFecha
+          );
+          break;
+        case 'CONTRATO DE TRABAJO SUJETO A MODALIDAD POR EMERGENCIA':
+          doc = contratoDeEmergenciaDocx(
+            registroTrabajador,
+            registroEmpleador,
+            datosLocales,
+            prueba_meses,
+            prueba_inicio,
+            prueba_termino,
+            fechaFormateada,
+            num_valores,
+            fechaActualValor,
+            this.convertirFormatoFecha
+          );
+          break;
+        case 'CONTRATO DE TRABAJO INDETERMINADO CON FISCALIZACIÓN':
+          doc = contratoIndeterminadoConFiscalizacionDocx(
+            registroTrabajador,
+            registroEmpleador,
+            datosLocales,
+            prueba_meses,
+            prueba_inicio,
+            prueba_termino,
+            fechaFormateada,
+            num_valores,
+            fechaActualValor,
+            this.convertirFormatoFecha
+          );
+          break;
+        case 'CONTRATO DE TRABAJO INDETERMINADO SIN FISCALIZACIÓN':
+          doc = contratoIndeterminadoSinFiscalizacionDocx(
+            registroTrabajador,
+            registroEmpleador,
+            datosLocales,
+            prueba_meses,
+            prueba_inicio,
+            prueba_termino,
+            fechaFormateada,
+            num_valores,
+            fechaActualValor,
+            this.convertirFormatoFecha
+          );
+          break;
+        case 'CONTRATO DE TRABAJO INNOMINADO':
+          doc = contratoInnominadoDocx(
+            registroTrabajador,
+            registroEmpleador,
+            datosLocales,
+            prueba_meses,
+            prueba_inicio,
+            prueba_termino,
+            fechaFormateada,
+            num_valores,
+            fechaActualValor,
+            this.convertirFormatoFecha
+          );
+          break;
+        case 'CONTRATO DE TRABAJO INTERMITENTE':
+          doc = contratoIntermitenteDocx(
+            registroTrabajador,
+            registroEmpleador,
+            datosLocales,
+            prueba_meses,
+            prueba_inicio,
+            prueba_termino,
+            fechaFormateada,
+            num_valores,
+            fechaActualValor,
+            this.convertirFormatoFecha
+          );
+          break;
+        case 'CONTRATO DE TRABAJO POR NECESIDAD DE MERCADO':
+          doc = contratoNecesidadMercadoDocx(
+            registroTrabajador,
+            registroEmpleador,
+            datosLocales,
+            prueba_meses,
+            prueba_inicio,
+            prueba_termino,
+            fechaFormateada,
+            num_valores,
+            fechaActualValor,
+            this.convertirFormatoFecha
+          );
+          break;
+        case 'CONTRATO DE TRABAJO POR OBRA DETERMINADA':
+          doc = contratoObraDeterminadaDocx(
+            registroTrabajador,
+            registroEmpleador,
+            datosLocales,
+            prueba_meses,
+            prueba_inicio,
+            prueba_termino,
+            fechaFormateada,
+            num_valores,
+            fechaActualValor,
+            this.convertirFormatoFecha
+          );
+          break;
+        case 'CONTRATO DE TRABAJO OCASIONAL':
+          doc = contratoOcacionalDocx(
+            registroTrabajador,
+            registroEmpleador,
+            datosLocales,
+            prueba_meses,
+            prueba_inicio,
+            prueba_termino,
+            fechaFormateada,
+            num_valores,
+            fechaActualValor,
+            this.convertirFormatoFecha
+          );
+          break;
+        case 'CONTRATO DE TRABAJO POR SUPLENCIA':
+          doc = contratoPorSuplenciaDocx(
+            registroTrabajador,
+            registroEmpleador,
+            datosLocales,
+            prueba_meses,
+            prueba_inicio,
+            prueba_termino,
+            fechaFormateada,
+            num_valores,
+            fechaActualValor,
+            this.convertirFormatoFecha
+          );
+          break;
+        case 'CONTRATO DE TRABAJO POR TEMPORADA':
+          doc = contratoPorTemporadaDocx(
+            registroTrabajador,
+            registroEmpleador,
+            datosLocales,
+            prueba_meses,
+            prueba_inicio,
+            prueba_termino,
+            fechaFormateada,
+            num_valores,
+            fechaActualValor,
+            this.convertirFormatoFecha
+          );
+          break;
+        case 'CONTRATO DE TRABAJO POR RECONVERSIÓN EMPRESARIAL':
+          doc = contratoReconversionEmpresarialDocx(
+            registroTrabajador,
+            registroEmpleador,
+            datosLocales,
+            prueba_meses,
+            prueba_inicio,
+            prueba_termino,
+            fechaFormateada,
+            num_valores,
+            fechaActualValor,
+            this.convertirFormatoFecha
+          );
+          break;
+        case 'CONTRATO DE TRABAJO POR SERVICIO ESPECÍFICO':
+          doc = contratoServicioEspecificoDocx(
+            registroTrabajador,
+            registroEmpleador,
+            datosLocales,
+            prueba_meses,
+            prueba_inicio,
+            prueba_termino,
+            fechaFormateada,
+            num_valores,
+            fechaActualValor,
+            this.convertirFormatoFecha
+          );
+          break;
+        default:
+          console.error(
+            'Tipo de contrato recibido:',
+            datosLocales.modelo_contrato
+          );
+          throw new Error(
+            `Tipo de contrato no soportado: ${datosLocales.modelo_contrato}`
+          );
+      }
 
       const blob = await Packer.toBlob(doc);
       const url = window.URL.createObjectURL(blob);
@@ -144,11 +366,9 @@ export class ObtenerDatosDocumentoService {
       a.click();
       window.URL.revokeObjectURL(url);
       document.body.removeChild(a);
-    } catch (error: unknown) {
-      const err = error as Error;
-      console.error('Error detallado al generar el documento:', err);
-      console.error('Stack trace:', err.stack);
-      throw err;
+    } catch (error) {
+      console.error('Error al generar documento:', error);
+      throw error;
     }
   }
 
