@@ -11,6 +11,9 @@ import { environment } from 'src/environments/environment';
 export interface ContratoCreate {
   id_trabajador: number;
   id_empleador: number;
+  id_cargo: number;
+  id_funciones: number;
+  id_regimen_laboral: number;
   jornada: number;
   tipo_contrato: number;
   fecha_periodo: string | null;

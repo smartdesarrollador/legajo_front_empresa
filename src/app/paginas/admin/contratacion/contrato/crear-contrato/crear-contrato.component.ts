@@ -112,6 +112,9 @@ export class CrearContratoComponent implements OnInit {
         this.contratoData = {
           id_trabajador: Number(contratoLocal.trabajador),
           id_empleador: Number(contratoLocal.empleador),
+          id_cargo: 1,
+          id_funciones: 1,
+          id_regimen_laboral: 1,
           jornada: mapearJornada(contratoLocal.jornada),
           tipo_contrato: mapearTipoContrato(contratoLocal.tipo_contrato),
           fecha_periodo: formatearFecha(contratoLocal.fecha_inicio),
