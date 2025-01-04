@@ -133,7 +133,7 @@ export class ObtenerDatosDocumentoService {
 
       switch (datosLocales.modelo_contrato.toUpperCase()) {
         case 'INDETERMINADO':
-        case 'CONTRATO INDETERMINADO':
+        case 'A PLAZO FIJO':
         case 'CONTRATO DE TRABAJO INDETERMINADO':
           doc = contratoIndeterminadoDocx(
             registroTrabajador,
