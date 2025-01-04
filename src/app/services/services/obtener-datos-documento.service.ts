@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Document, Packer } from 'docx';
-import { contratoInicioActividadDocx } from './funciones-contratos.ts/contrato-inicio-actividad-docx';
+import { contratoInicioActividadDocx } from './funciones-contratos/contrato-inicio-actividad-docx';
 import { dateFunctions } from 'src/app/utils/dateFunctions';
 
 interface ContratoDocumentoResponse {
