@@ -1,0 +1,198 @@
+import { dateFunctions } from 'src/app/utils/dateFunctions';
+import {
+  Document,
+  Paragraph,
+  TextRun,
+  HeadingLevel,
+  AlignmentType,
+  Table,
+  TableRow,
+  TableCell,
+  WidthType,
+} from 'docx';
+
+interface TrabajadorAdaptado {
+  primer_nombre: string;
+  segundo_nombre: string;
+  apellido_paterno: string;
+  apellido_materno: string;
+  numero_documento: string;
+  direccion: string;
+}
+
+interface EmpleadorAdaptado {
+  empleador: string;
+  ruc: string;
+  domicilio: string;
+  representante_legal: string;
+  actividad_economica: string;
+  domiciliado: string;
+}
+
+export function contratoInnominadoDocx(
+  registroTrabajador: TrabajadorAdaptado,
+  registroEmpleador: EmpleadorAdaptado,
+  datosLocales: any,
+  prueba_meses: string,
+  prueba_inicio: string,
+  prueba_termino: string,
+  fechaFormateada: string,
+  num_valores: Array<string>,
+  fechaActualValor: string,
+  convertirFormatoFecha: dateFunctions
+): Document {
+  try {
+    const formatoFechaInicio = convertirFormatoFecha.convertirFecha(
+      datosLocales.fecha_inicio
+    );
+    const formatoFechaRenovacion = convertirFormatoFecha.convertirFecha(
+      datosLocales.fecha_renovacion
+    );
+
+    // Título
+    const titulo = new Paragraph({
+      text: datosLocales.modelo_contrato,
+      heading: HeadingLevel.HEADING_1,
+      alignment: AlignmentType.CENTER,
+    });
+
+    // Introducción
+    const introduccion = new Paragraph({
+      children: [
+        new TextRun({
+          text: 'Conste por el presente documento, el Contrato modal a plazo fijo que celebran, de conformidad con lo establecido por el artículo 82 del Texto Único Ordenado del Decreto Legislativo 728 – Ley de Productividad y Competitividad Laboral aprobado por el Decreto Supremo N.º 003-97-TR, de una parte,\n\n',
+        }),
+      ],
+    });
+
+    // Datos del empleador y trabajador
+    const datosPartes = [
+      new Paragraph({
+        children: [
+          new TextRun({ text: registroEmpleador.empleador, bold: true }),
+          new TextRun({ text: ', identificado con RUC Nº ' }),
+          new TextRun({ text: registroEmpleador.ruc, bold: true }),
+          new TextRun({ text: ', con domicilio en ' }),
+          new TextRun({ text: registroEmpleador.domicilio, bold: true }),
+          new TextRun({ text: ', debidamente representado por ' }),
+          new TextRun({
+            text: registroEmpleador.representante_legal,
+            bold: true,
+          }),
+          new TextRun({
+            text: ', a quien en adelante se le denominará EL EMPLEADOR, y de la otra parte,\n\n',
+          }),
+        ],
+      }),
+      new Paragraph({
+        children: [
+          new TextRun({
+            text: `${registroTrabajador.primer_nombre} ${registroTrabajador.segundo_nombre} ${registroTrabajador.apellido_paterno} ${registroTrabajador.apellido_materno}`,
+            bold: true,
+          }),
+          new TextRun({ text: ', identificado con DNI Nº ' }),
+          new TextRun({
+            text: registroTrabajador.numero_documento,
+            bold: true,
+          }),
+          new TextRun({ text: ', con domicilio en ' }),
+          new TextRun({ text: registroTrabajador.direccion, bold: true }),
+          new TextRun({
+            text: ', a quien en adelante se le denominará EL TRABAJADOR.\n\n',
+          }),
+        ],
+      }),
+    ];
+
+    // Cláusulas
+    const clausulas = [
+      // Duración del contrato
+      new Paragraph({
+        text: `CLÁUSULA ${num_valores[9]}. - DURACIÓN DEL CONTRATO`,
+        heading: HeadingLevel.HEADING_2,
+        spacing: { before: 200, after: 200 },
+      }),
+      new Paragraph({
+        children: [
+          new TextRun('El plazo de duración del presente contrato es de '),
+          new TextRun({ text: '1 año', bold: true }),
+          new TextRun(', y rige desde el '),
+          new TextRun({ text: formatoFechaInicio, bold: true }),
+          new TextRun(
+            ', fecha en que debe empezar sus labores EL TRABAJADOR, hasta el '
+          ),
+          new TextRun({ text: formatoFechaRenovacion, bold: true }),
+          new TextRun(', fecha en que termina el contrato.\n\n'),
+        ],
+      }),
+      // ... Agregar el resto de las cláusulas siguiendo el mismo patrón
+    ];
+
+    // Tabla de firmas
+    const tablaFirmas = new Table({
+      width: { size: 100, type: WidthType.PERCENTAGE },
+      rows: [
+        new TableRow({
+          children: [
+            new TableCell({
+              children: [new Paragraph('______________________________')],
+              width: { size: 50, type: WidthType.PERCENTAGE },
+            }),
+            new TableCell({
+              children: [new Paragraph('______________________________')],
+              width: { size: 50, type: WidthType.PERCENTAGE },
+            }),
+          ],
+        }),
+        new TableRow({
+          children: [
+            new TableCell({
+              children: [new Paragraph('EL EMPLEADOR')],
+              width: { size: 50, type: WidthType.PERCENTAGE },
+            }),
+            new TableCell({
+              children: [new Paragraph('EL TRABAJADOR')],
+              width: { size: 50, type: WidthType.PERCENTAGE },
+            }),
+          ],
+        }),
+      ],
+    });
+
+    // Crear documento
+    const doc = new Document({
+      sections: [
+        {
+          properties: {},
+          children: [
+            titulo,
+            introduccion,
+            ...datosPartes,
+            ...clausulas,
+            tablaFirmas,
+          ],
+        },
+      ],
+      styles: {
+        paragraphStyles: [
+          {
+            id: 'normal',
+            name: 'Normal',
+            run: {
+              size: 24,
+              font: 'Arial',
+            },
+            paragraph: {
+              spacing: { line: 360 },
+            },
+          },
+        ],
+      },
+    });
+
+    return doc;
+  } catch (error) {
+    console.error('Error en contratoInnominadoDocx:', error);
+    throw error;
+  }
+}
