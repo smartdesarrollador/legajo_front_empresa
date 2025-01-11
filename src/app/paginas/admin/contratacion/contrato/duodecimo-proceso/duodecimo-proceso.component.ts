@@ -103,6 +103,7 @@ export class DuodecimoProcesoComponent {
     /* const empleador$ = this.getEmpleador(this.datosLocales.empleador); */
     const empleador$ = this.getEmpleador();
 
+    // Combina los observables de trabajador y empleador para obtener los datos de ambos de forma simultánea
     forkJoin([trabajador$, empleador$]).subscribe(
       ([trabajadorData, empleadorData]) => {
         this.registroTrabajador = trabajadorData;
